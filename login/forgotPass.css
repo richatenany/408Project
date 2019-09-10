@@ -1,0 +1,19 @@
+.color{
+    background-image: url("background.jpg");
+    height: 550px;
+    margin: 0;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: .7;
+}
+#title{
+    letter-spacing: 18px;
+    font-size: 180%;
+}
+#arrow{
+    font-size: 180%;
+    float: left;
+    margin-left: 2%;
+    text-decoration: none;
+}

@@ -1,0 +1,40 @@
+.color{
+    background-image: url("background.jpg");
+    height: 550px;
+    margin: 0;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: .7;
+}
+#title{
+    letter-spacing: 18px;
+    font-size: 180%;
+}
+#creds{
+    width: 60%;
+    height: 40px;
+    border-radius: 2px;
+    padding: 2%;
+}
+#loginBtn{
+    background-color: #43499D;
+    padding: 1%;
+    width: 10%;
+    color: white;
+    border-radius: 4px;
+    opacity: .8;
+}
+#pass{
+    position: relative;
+    float: left;
+    margin: 2%;
+    color: #34145D;
+    text-decoration: none;
+   
+}
+#newAcct{
+    float:right;
+    margin: 2%;
+    color: #34145D;
+}
