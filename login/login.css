@@ -1,3 +1,7 @@
+#wrapper{
+    display: flex;
+    justify-content: center;
+}
 .color{
     background-image: url("background.jpg");
     height: 550px;
@@ -9,32 +13,57 @@
 #title{
     letter-spacing: 18px;
     font-size: 180%;
+    /* margin-left: 200px; */
+    text-align: center;
+    margin-top: 10px;
+    display: block;
 }
 #creds{
-    width: 60%;
+    width: 500px;
     height: 40px;
     border-radius: 2px;
     padding: 2%;
+    /* margin-left: -400px; */
+}
+#creds2{
+    width: 500px;
+    height: 40px;
+    border-radius: 2px;
+    padding: 2%;
+    margin-top: 50px;
+    /* margin-left: -390px; */
 }
 #loginBtn{
     background-color: #43499D;
-    padding: 1%;
-    width: 10%;
+    padding: 5px;
+    width: 150px;
     color: white;
     border-radius: 4px;
     opacity: .8;
+    margin-top: 50px;
+    /* margin-left: -400px; */
 }
 #pass{
-    position: relative;
     float: left;
-    margin: 2%;
     color: #34145D;
     text-decoration: none;
-   
 }
 #newAcct{
     float:right;
-    margin: 2%;
     color: #34145D;
-    text-decoration: none;
+}
+#align{
+    margin-bottom: 350px;
+    padding: 10px;
+}
+#buttonDiv{
+    display:block;
+    text-align: center;
+}
+div#formDiv{
+    width: 500px;
+
+}
+form{
+    display: block;
 }
