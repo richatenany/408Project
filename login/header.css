@@ -1,5 +1,6 @@
 div.header{
-    background-color: rgb(75, 75, 180);
+    background-color: #4F54A5;
+    opacity: .9;
     margin: 0;
     font-family: 'Ubuntu', sans-serif;
 }
@@ -13,7 +14,7 @@ div#logoutDiv{
     margin-right: 15px;
 }
 #logoutButton:hover{
-    color: orange;
+    color: #ECA2C3
 }
 p#bigTitleText{
     font-size: 32px;
@@ -40,5 +41,5 @@ div#tabsInner a{
     color: white;
 }
 div#tabsInner a:hover{
-    color: orange;
+    color: #ECA2C3
 }
