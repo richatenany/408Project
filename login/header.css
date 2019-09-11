@@ -1,0 +1,44 @@
+div.header{
+    background-color: rgb(75, 75, 180);
+    margin: 0;
+    font-family: 'Ubuntu', sans-serif;
+}
+div#logoutDiv{
+    display: block;
+    text-align: right;
+}
+#logoutButton{
+    color: white;
+    text-decoration: none;
+    margin-right: 15px;
+}
+#logoutButton:hover{
+    color: orange;
+}
+p#bigTitleText{
+    font-size: 32px;
+    color: white;
+    margin-top: 0;
+    text-align: center;
+    margin-bottom:3px;
+}
+div#tabsOuter {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding-bottom: 8px;
+}
+div#tabsInner {
+    display: flex;
+    width: 600px;
+    justify-content: space-evenly;
+}
+div#tabsInner a{
+    margin-left: 50px;
+    margin-right: 50px;
+    text-decoration: none;
+    color: white;
+}
+div#tabsInner a:hover{
+    color: orange;
+}
