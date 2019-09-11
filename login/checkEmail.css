@@ -1,0 +1,46 @@
+#wrapper{
+    display: flex;
+    justify-content: center;
+}
+.color{
+    background-image: url("background.jpg");
+    height: 550px;
+    margin: 0;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: .7;
+}
+#title{
+    letter-spacing: 18px;
+    font-size: 180%;
+}
+#arrow{
+    font-size: 180%;
+    float: left;
+    margin-left: 2%;
+    text-decoration: none;
+}
+#submitBtn{
+    background-color: #43499D;
+    padding: 5px;
+    width: 150px;
+    color: white;
+    border-radius: 4px;
+    opacity: .8;
+    margin-top: 50px;
+    /* margin-left: -400px; */
+}
+#format{
+   padding: 10px;   
+}
+#gotitBtn{
+    background-color: #43499D;
+    padding: 5px;
+    width: 150px;
+    color: white;
+    border-radius: 4px;
+    opacity: .8;
+    margin-top: 20px;
+    /* margin-left: -400px; */
+}
