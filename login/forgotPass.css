@@ -21,3 +21,21 @@
     margin-left: 2%;
     text-decoration: none;
 }
+#creds{
+    width: 500px;
+    height: 40px;
+    border-radius: 2px;
+    margin-top: 50px;
+    padding-left: 10px;
+    /* margin-left: -400px; */
+}
+#submitBtn{
+    background-color: #43499D;
+    padding: 5px;
+    width: 150px;
+    color: white;
+    border-radius: 4px;
+    opacity: .8;
+    margin-top: 50px;
+    /* margin-left: -400px; */
+}

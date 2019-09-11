@@ -54,6 +54,7 @@
 #newAcct{
     float:right;
     color: #34145D;
+    text-decoration: none;
 }
 #align{
     margin-bottom: 350px;
