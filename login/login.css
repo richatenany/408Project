@@ -30,7 +30,7 @@
     height: 40px;
     border-radius: 2px;
     padding: 2%;
-    margin-top: 50px;
+    margin-top: 30px;
     /* margin-left: -390px; */
 }
 #loginBtn{
@@ -40,7 +40,7 @@
     color: white;
     border-radius: 4px;
     opacity: .8;
-    margin-top: 50px;
+    margin-top: 40px;
     /* margin-left: -400px; */
 }
 #pass{
@@ -51,6 +51,7 @@
 #newAcct{
     float:right;
     color: #34145D;
+    text-decoration: none;
 }
 #align{
     margin-bottom: 350px;

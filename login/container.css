@@ -2,12 +2,12 @@
     opacity: .7;
     background-color: white;
     width: 700px;
-    height: 350px;
+    height: 330px;
     /* margin-top: 50px; */
     position: absolute;
     /* left: 25%; */
     top: 25%;
     border-radius: 4px;
     box-shadow: 3px 3px 4px 4px grey;
-    /* display: flex; */
+
 }
