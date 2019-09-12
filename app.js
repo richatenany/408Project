@@ -17,6 +17,9 @@ const UserSchema = new mongoose.Schema({
     taskIDs: {type:[String]}
 }, {timestamps: true});
 
+mongoose.model('User', UserSchema);
+const User = mongoose.model('User');
+
 const TaskSchema = new mongoose.Schema({
     title: {type:String, required:[true, "Title is required for Task"], minlength: 2},
     deadLine: {type:Date, requred:[true, "Deadline is required for Task"]},
@@ -28,8 +31,10 @@ const TaskSchema = new mongoose.Schema({
     status: {type:Number, required:[true, "Status is required for Task."], default:0},
     dateCompleted: {type:Date}
 }, {timestamps: true});
-mongoose.model('User', UserSchema);
-const User = mongoose.model('User');
+
+mongoose.model('Task', TaskSchema);
+const Task = mongoose.model('Task');
+
 
 app.get('/login', (request, response) => {
     return response.sendFile(path.resolve('./login/login.html'))
