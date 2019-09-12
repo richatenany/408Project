@@ -10,6 +10,12 @@ app.use(bodyParser.json());
 
 mongoose.connect('mongodb://localhost/StratifyDB');
 
+const UserSchema = new mongoose.Schema({
+    name: {type:String, required:[true, "Name is required for User."], minlength: 2}
+}, {timestamps: true});
+mongoose.model('User', UserSchema);
+const User = mongoose.model('User');
+
 app.get('/login', (request, response) => {
     return response.sendFile(path.resolve('./login/login.html'))
 })
