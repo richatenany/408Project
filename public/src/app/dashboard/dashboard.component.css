@@ -4,7 +4,7 @@
     margin: 15px;
     font-size: 20px;
   }
-  .flex-grid-thirds .col {
+  .flex-grid-thirds * {
     width: 32%;
   }
   * {

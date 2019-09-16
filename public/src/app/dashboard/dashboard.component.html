@@ -1,8 +1,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <div class="flex-grid-thirds">
-    <div class="col"> <i class="fa fa-plus-circle" style="font-size:22px; padding-right: 12px"></i>To-Do<br>
-        <app-task-card taskName="Dummy Name" description="This is a test description" currentStatus="To-Do"></app-task-card>
-    </div>
-    <div class="col">In Progress</div>
-    <div class="col">Done</div>
+    <app-dashboard-section sectionName="To-Do"></app-dashboard-section>
+    <app-dashboard-section sectionName="In-Progress"></app-dashboard-section>
+    <app-dashboard-section sectionName="Done"></app-dashboard-section>
 </div>
