@@ -3,10 +3,29 @@ const app = express();
 const path = require('path')
 const bodyParser=require('body-parser')
 const mongoose=require('mongoose')
+var session=require('express-session')
+const bcrypt=require('bcrypt')
 
 app.use(express.static('login'));
 app.use(express.static('./public/dist/public'));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}))
+
+app.use(session({
+    secret:'StratifySecrets!!',
+    resave:false,
+    saveUninitialized:true,
+    cookie:{maxAge:60000}
+}))
+
+// type SUCCESS_STATE = -1 | 0 | 1;
+// type SERVER_RESPONSE = {
+//     success:SUCCESS_STATE,
+//     message:string,
+//     content?: Object
+// };
+
+const NUM_SALTS = 10;
 
 mongoose.connect('mongodb://localhost/StratifyDB');
 
@@ -16,7 +35,6 @@ const UserSchema = new mongoose.Schema({
     pass: {type:String, required:[true, "Password is required for User."]},
     taskIDs: {type:[String]}
 }, {timestamps: true});
-
 mongoose.model('User', UserSchema);
 const User = mongoose.model('User');
 
@@ -31,13 +49,39 @@ const TaskSchema = new mongoose.Schema({
     status: {type:Number, required:[true, "Status is required for Task."], default:0},
     dateCompleted: {type:Date}
 }, {timestamps: true});
-
 mongoose.model('Task', TaskSchema);
 const Task = mongoose.model('Task');
 
-
 app.get('/login', (request, response) => {
     return response.sendFile(path.resolve('./login/login.html'))
+})
+app.post('/processLogin', (request, response) => {
+    const {email, password} = request.body;
+    console.log("Email:", email)
+    console.log("Password:", password);
+    const hashedPW = bcrypt.hashSync(password, NUM_SALTS);
+    console.log("hashedPW:", hashedPW);
+
+    User.findOne({email: email}, (error, user) => {
+        if(error){
+            //No user found, display error message
+            const serverResponse = { success: -1, message: "Server Error"};
+            return response.json(serverResponse);
+        }
+        else if(user === null){
+            const serverResponse = { success: 0, message: "User not found"};
+            return response.json(serverResponse);
+        }
+        else{
+            if(bcrypt.compareSync(password, user.password)){
+                //Don't do this, store info in session, and redirect to angular
+                const serverResponse = { success: 1, message:"Login Successful", content: {userInfo: {name: user.name, email: user.email, taskIDs: user.taskIDs}}}
+                return response.json(serverResponse);
+            }
+            const serverResponse = { success: 0, message: "Invalid Login"};
+            return response.json(serverResponse);
+        }
+    })
 })
 
 //This has to be the last one
