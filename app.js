@@ -27,7 +27,7 @@ app.use(session({
 
 const NUM_SALTS = 10;
 
-mongoose.connect('mongodb://localhost/StratifyDB');
+mongoose.connect('mongodb://localhost/StratifyDB', {useNewUrlParser: true, useUnifiedTopology: true});
 
 const UserSchema = new mongoose.Schema({
     name: {type:String, required:[true, "Name is required for User."], minlength: 2},
@@ -55,14 +55,70 @@ const Task = mongoose.model('Task');
 app.get('/login', (request, response) => {
     return response.sendFile(path.resolve('./login/login.html'))
 })
+
+app.post('/processSignup', (request, response ) => {
+    bcrypt.hash(request.body.confirmPass, 10).then(hash => {
+        const user = new User({
+            name: request.body.name,
+            email: request.body.email,
+            pass: hash
+        });
+        console.log(request.body.confirmPass);
+        user.save()
+            .then(result => {
+                response.status(201).json({
+                    message: "User created!",
+                    result: result
+                });
+            })
+            .catch(err => {
+                console.log("ERROR");
+                response.status(500).json({
+                    error:err
+                });
+            });
+    });
+});
+
 app.post('/processLogin', (request, response) => {
+    console.log("HELLO");
     const {email, password} = request.body;
-    console.log("Email:", email)
+    console.log("Email:", email);
     console.log("Password:", password);
     const hashedPW = bcrypt.hashSync(password, NUM_SALTS);
     console.log("hashedPW:", hashedPW);
+    
 
-    User.findOne({email: email}, (error, user) => {
+    User.findOne({ email : request.body.email}) 
+        .then(user => {
+            if(!user) {
+                return response.status(401).json({
+                    message: "Authentication failed"
+                });
+            } 
+           return bcrypt.compare(request.body.password, user.pass);
+        })
+        .then(result => {
+            console.log(result);
+            if(!result) {
+                console.log("FALSE");
+                return response.status(401).json({
+                    message: "Incorrect password"
+                });
+            } else {
+                // return response.sendFile(path.resolve('./public/dist/public/index.html'))
+                return response.redirect('/');
+            }
+
+        })
+        .catch(err => {
+            console.log("HERE");
+            return response.status(401).json({
+                message: "Incorrect password"
+            });
+        });
+
+   /* User.findOne({email: email}, (error, user) => {
         if(error){
             //No user found, display error message
             const serverResponse = { success: -1, message: "Server Error"};
@@ -78,11 +134,12 @@ app.post('/processLogin', (request, response) => {
                 const serverResponse = { success: 1, message:"Login Successful", content: {userInfo: {name: user.name, email: user.email, taskIDs: user.taskIDs}}}
                 return response.json(serverResponse);
             }
+        }
             const serverResponse = { success: 0, message: "Invalid Login"};
             return response.json(serverResponse);
-        }
-    })
-})
+        
+    }) */
+});
 
 //This has to be the last one
 app.all('*', (request, response, next) => {
