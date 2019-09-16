@@ -1,0 +1,19 @@
+.flex-grid-thirds {
+    display: flex;
+    justify-content: space-between;
+    margin: 15px;
+    font-size: 20px;
+  }
+  .flex-grid-thirds app-dashboard-section {
+    width: 32%;
+  }
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    padding: 20px;
+  }
+  
+.col {
+  padding: 20px;
+}
