@@ -18,20 +18,17 @@
   },
   "homepage": "https://github.com/richatenany/408Project#readme",
   "dependencies": {
-    "angular/clu": "1.4.9",
-    "angular/compiler-cli": "^4.4.6",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "mongoose": "^5.7.0",
     "nodemon": "^1.19.2",
     "path": "^0.12.7",
+    "angular/clu": "1.4.9",
+    "angular/compiler-cli": "^4.4.6",
     "typescript": "~2.3.3"
   },
   "engines": {
     "node": "10.13.0",
     "npm": "6.11.3"
-  },
-  "devDependencies": {
-    "enhanced-resolve": "^3.3.0"
   }
 }
