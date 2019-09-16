@@ -16,14 +16,13 @@
         <div id="wrapper">
             <div class="container">
                     <br>
-                    <!-- <h id="title"> STRATIFY </h> -->
                     <p id="title">STRATIFY</p>
                     <div id='formDiv'>
-                    <form>
-                        <input id="creds" type="text" placeholder="Enter email">
-                        <input id="creds2" type="text" placeholder="Enter password"> 
+                    <form action='/processLogin' method='post'>
+                        <input id="creds" type="text" placeholder="Enter email" name='email'>
+                        <input id="creds2" type="password" placeholder="Enter password" name='password'> 
                         <div id='buttonDiv'>
-                            <input id="loginBtn" type="submit" value="Login">
+                            <input id="loginBtn" type="submit" value="Login"/>
                         </div>
                     </form> 
                 </div>
@@ -35,7 +34,6 @@
                     
             </div>
         </div>
-            
     </center>
     
 </body>
