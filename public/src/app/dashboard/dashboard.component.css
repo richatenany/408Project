@@ -4,7 +4,7 @@
     margin: 15px;
     font-size: 20px;
   }
-  .flex-grid-thirds * {
+  .flex-grid-thirds app-dashboard-section {
     width: 32%;
   }
   * {

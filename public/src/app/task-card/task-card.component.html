@@ -1,11 +1,17 @@
 <div class="card">
-    <div class="card_header">
-        <p>{{taskName}}</p>
-    </div>
+    <a href='#'>
+        <div class="card_header">
+            <p class='taskName'>{{taskName}}</p>
+        </div>
+    </a>
     <div class="card_info">
-        <p>{{description}}</p>
+        <p class='taskDescription'>{{description}}</p>
     </div>
     <div class="dropdown">
-        <button class="category">{{currentStatus}}</button>
+        <select>
+            <option>To-Do</option>
+            <option>In-Progress</option>
+            <option>Done</option>
+        </select>
     </div>
 </div>
