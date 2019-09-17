@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-dashboard-section',
@@ -9,10 +9,13 @@ import { Component, OnInit, Input } from '@angular/core';
 export class DashboardSectionComponent implements OnInit {
   
   @Input() sectionName;
+  @Output() switchTo: EventEmitter<{newTab: string, section: number}>;
+
   showPlus: boolean;
 
   constructor() { 
     this.showPlus = false;
+    this.switchTo = new EventEmitter<{newTab: string, section: number}>();
   }
 
   ngOnInit() {
@@ -21,7 +24,7 @@ export class DashboardSectionComponent implements OnInit {
     }
   }
   plusClicked(){
-    console.log("Plus button is clicked");
+    this.switchTo.emit({newTab:'addTask', section:0})
   }
 
 }

@@ -13,5 +13,8 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
   }
+  switchListener({newTab:string, section:number}) {
+    console.log("Received event");
+  }
 
 }
