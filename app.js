@@ -81,19 +81,19 @@ app.post('/processSignup', (request, response ) => {
 });
 
 app.post('/processLogin', (request, response) => {
-    console.log("HELLO");
+    /* console.log("HELLO");
     const {email, password} = request.body;
     console.log("Email:", email);
     console.log("Password:", password);
     const hashedPW = bcrypt.hashSync(password, NUM_SALTS);
-    console.log("hashedPW:", hashedPW);
+    console.log("hashedPW:", hashedPW); */
     
 
     User.findOne({ email : request.body.email}) 
         .then(user => {
             if(!user) {
                 return response.status(401).json({
-                    message: "Authentication failed"
+                    message: "Email does not exist"
                 });
             } 
            return bcrypt.compare(request.body.password, user.pass);
@@ -139,6 +139,11 @@ app.post('/processLogin', (request, response) => {
             return response.json(serverResponse);
         
     }) */
+});
+
+app.get('/processLogout', (request, response) => {
+
+    return response.redirect('/login');
 });
 
 //This has to be the last one
