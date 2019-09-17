@@ -57,40 +57,38 @@ app.get('/login', (request, response) => {
 })
 
 app.post('/processSignup', (request, response ) => {
+    var flag = true;
     User.findOne({ email : request.body.email}) 
         .then(user => {
             if(user) {
+                flag = false;
                 return response.status(401).json({
                     message: "Email already exists"
                 });
             }
-            return bcrypt.compare(request.body.password, request.body.confirmPass);
-        })
-        .then(result => {
-            console.log(result);
-            if(!result) {
-                console.log("FALSE");
-                return response.status(401).json({
-                     message : "Password does not match"
-                });
-            } 
-
+            
         })
         .catch(err => {
-            console.log("HERE");
-            return response.status(401).json({
-                message: "Signup unsucessfull"
+            flag = false;
+            console.log("ERROR");
+            response.status(500).json({
+                error:err
             });
         });
+    if(request.body.password !== request.body.confirmPass) {
+        flag = false;
+        return response.status(401).json({
+            message: "Passwords do not match"
+        });
+    }
         
-
-    bcrypt.hash(request.body.confirmPass, 10).then(hash => {
+    if(flag == true) {
+        bcrypt.hash(request.body.confirmPass, 10).then(hash => {
         const user = new User({
             name: request.body.name,
             email: request.body.email,
             pass: hash
         });
-        console.log(request.body.confirmPass);
         user.save()
             .then(result => {
                 response.status(201).json({
@@ -105,6 +103,7 @@ app.post('/processSignup', (request, response ) => {
                 });
             });
     });
+    }   
 });
 
 app.post('/processLogin', (request, response) => {
