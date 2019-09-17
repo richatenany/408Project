@@ -9,13 +9,13 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 export class DashboardSectionComponent implements OnInit {
   
   @Input() sectionName;
-  @Output() switchTo: EventEmitter<{newTab: string, section: number, taskID?: number}>;
+  @Output() switchTo: EventEmitter<{newTab: string, section: number, taskID?: string}>;
 
   showPlus: boolean;
 
   constructor() { 
     this.showPlus = false;
-    this.switchTo = new EventEmitter<{newTab: string, section: number, taskID?: number}>();
+    this.switchTo = new EventEmitter<{newTab: string, section: number, taskID?: string}>();
   }
 
   ngOnInit() {
@@ -27,7 +27,7 @@ export class DashboardSectionComponent implements OnInit {
     this.switchTo.emit({newTab:'addTask', section:0})
   }
 
-  goToTaskInfo(taskID: number){
+  goToTaskInfo(taskID: string){
     var section;
     switch (this.sectionName){
       case 'To-Do':
