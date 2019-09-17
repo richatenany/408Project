@@ -5,6 +5,7 @@ const bodyParser=require('body-parser')
 const mongoose=require('mongoose')
 var session=require('express-session')
 const bcrypt=require('bcrypt')
+const emailRegex = require('email-regex');
 
 app.use(express.static('login'));
 app.use(express.static('./public/dist/public'));
@@ -66,7 +67,7 @@ app.post('/processSignup', (request, response ) => {
                     message: "Email already exists"
                 });
             }
-            
+
         })
         .catch(err => {
             flag = false;
@@ -75,12 +76,26 @@ app.post('/processSignup', (request, response ) => {
                 error:err
             });
         });
+    
+    if(!emailRegex({exact: true}).test(request.body.email)) {
+        return response.status(401).json({
+            message: "Not a valid email"
+        });
+    }
+    var pass = request.body.password 
+    if(request.body.password.length > 20) {
+        flag = false;
+        return response.status(401).json({
+            message: "Password too long"
+        });
+    }
     if(request.body.password !== request.body.confirmPass) {
         flag = false;
         return response.status(401).json({
             message: "Passwords do not match"
         });
-    }
+    } 
+    
         
     if(flag == true) {
         bcrypt.hash(request.body.confirmPass, 10).then(hash => {
