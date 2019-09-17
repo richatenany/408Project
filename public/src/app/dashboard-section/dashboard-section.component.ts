@@ -20,5 +20,8 @@ export class DashboardSectionComponent implements OnInit {
       this.showPlus = true;
     }
   }
+  plusClicked(){
+    console.log("Plus button is clicked");
+  }
 
 }
