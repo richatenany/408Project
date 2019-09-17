@@ -1,5 +1,9 @@
 .col {
   padding: 20px;
+  border-left: 1px solid black;
+  margin: 0px;
+  height: 100vh;
+  overflow: scroll;
 }
 .top{
   display: block;
@@ -7,4 +11,9 @@
 .top p{
   display: inline-block;
   margin: 0;
+}
+div.top button{
+  background: none;
+  border: none;
+  padding: 0;
 }

@@ -6,10 +6,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-
-  constructor() { }
+  addPressed:boolean;
+  constructor() {
+    this.addPressed = false;
+   }
 
   ngOnInit() {
+  }
+  switchListener(info: {newTab:string, section:number}) {
+    const {newTab, section} = info;
+    if(newTab === "addTask" && section === 0){
+      this.addPressed = true;
+    }
+    console.log("Received event:", info);
   }
 
 }

@@ -28,8 +28,7 @@ p.taskDescription{
     color: white;
 }
 .card_info{
-    padding-left: 10px;
-    padding-top: 5px;
+    padding: 5px 10px 0px 10px;
 }
 .category{
     font-size: 15px;
