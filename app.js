@@ -87,7 +87,8 @@ app.post('/processLogin', (request, response) => {
     console.log("Password:", password);
     const hashedPW = bcrypt.hashSync(password, NUM_SALTS);
     console.log("hashedPW:", hashedPW); */
-    
+    sess = request.session;
+    sess.email = request.body.email;
 
     User.findOne({ email : request.body.email}) 
         .then(user => {
@@ -106,6 +107,8 @@ app.post('/processLogin', (request, response) => {
                     message: "Incorrect password"
                 });
             } else {
+                sess = request.session;
+                sess.email = request.body.email;
                 // return response.sendFile(path.resolve('./public/dist/public/index.html'))
                 return response.redirect('/');
             }
@@ -142,8 +145,14 @@ app.post('/processLogin', (request, response) => {
 });
 
 app.get('/processLogout', (request, response) => {
-
-    return response.redirect('/login');
+    request.session.destroy((err) => {
+        if(err) {
+            return console.log(err);
+        } else {
+            console.log("SUCCESS");
+            return response.redirect('/login');
+        }
+    });
 });
 
 //This has to be the last one
