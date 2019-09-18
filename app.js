@@ -88,7 +88,8 @@ app.post('/processLogin', (request, response) => {
 app.all('*', (request, response, next) => {
     return response.sendFile(path.resolve('./public/dist/public/index.html'))
 })
+app.listen(process.env.PORT || 8080);
 
-app.listen(8000, () => {
-    console.log("Server is listening on port 8000");
-})
+// app.listen(8000, () => {
+//     console.log("Server is listening on port 8000");
+// })
