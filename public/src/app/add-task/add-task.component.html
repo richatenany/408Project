@@ -1,1 +1,18 @@
-<p>add-task works!</p>
+<div class='wrapper'>
+    <p>Title</p>
+    <input type='text' placeholder='Title' name='title' [(ngModel)]='title' >
+    <p>Weight: <input type='number' name='weight' min="0" max="12" [(ngModel)]='weight'></p>
+    <p>Category</p>
+    <select [(ngModel)]='category' name='category'>
+        <option value='Health'>Health</option>
+        <option value='Health'>Work</option>
+        <option value='Health'>Social</option>
+    </select>
+    <p>Description</p>
+    <textarea [(ngModel)]='description' name='description'></textarea>
+    <p>Deadline<input type='date' [(ngModel)]='date' name='date'></p>
+    <div class='bottom'>
+        <button (click)=cancelPressed()>Cancel</button>
+        <button (click)=donePressed()>Done</button>
+    </div>
+</div>
