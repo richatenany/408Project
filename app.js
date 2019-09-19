@@ -145,6 +145,55 @@ app.post('/createTask', (request, response) => {
     })
 })
 
+app.post('/removeTask', (request, response) => {
+    var title = request.body['title'];
+    var email = "dummy" //TODO: use backend email
+
+    console.log('In remove task');
+
+    User.findOne({email:email}, function(error, user){
+        console.log("finding user...");
+        if(error){
+            return response.json({success:-1, message: 'Server error'});
+        } else if(user == null){
+            return response.json({success:0, message:'Unable to find user'})
+        } else {
+            Task.findOne({email:email, title:title}, function(error, task){
+                if(error){
+                    return response.json({success:-1, message: 'Server error'});
+                } else if(task == null){
+                    return response.json({success:0, message:'Task not found'});
+                } else { 
+                    console.log('task id to be removed: ', task._id)
+                    User.findOneAndUpdate({email:email}, {$pull: {taskIDs: task._id}}, function(error, user){
+                        console.log('in update');
+                        if(error){
+                            return response.json({success:-1, message:'Server error or saving error'})
+                        }
+                        else if(user==null){
+                            return response.json({success:0, message:'Unable to find user'})
+                        }
+                        else{
+
+                            //Task removed from User's task list, now remove task from Task table
+                            Task.remove({email:email, title:title}, function(error){
+                                if(error){
+                                    return response.json({success:-1, message:'Error in Task.remove'});
+                                } else {
+                                    return response.json({success:0, message:'Task found and removed.'})
+                                }
+                            })
+                        };
+
+                    })
+                }
+            })
+
+        }
+    })
+
+})
+
 //This has to be the last one
 app.all('*', (request, response, next) => {
     return response.sendFile(path.resolve('./public/dist/public/index.html'))
