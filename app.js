@@ -5,6 +5,7 @@ const bodyParser=require('body-parser')
 const mongoose=require('mongoose')
 var session=require('express-session')
 const bcrypt=require('bcrypt')
+const nodemailer = require('nodemailer');
 const emailRegex = require('email-regex');
 
 app.use(express.static('login'));
@@ -133,7 +134,7 @@ app.post('/processSignup', (request, response ) => {
 });
 
 app.post('/processLogin', (request, response) => {
-    
+  
     User.findOne({ email : request.body.email}) 
         .then(user => {
             if(!user) {
@@ -292,3 +293,26 @@ app.all('*', (request, response, next) => {
 app.listen(8000, () => {
     console.log("Server is listening on port 8000");
 })
+
+function emailConfirmation(email) {
+    email = 'thearshadalikhan@gmail.com';
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+               user: 'theofficialstratify@gmail.com',
+               pass: 'Stratify4082019'
+           }
+    });
+    const mailOptions = {
+        from: 'theofficialstratify@gmail.com', // sender address
+        to: email, // list of receivers
+        subject: 'Congratulations on making a Stratify Account!', // Subject line
+        html: '<p>Congratulations on making a Stratify Account! We appreciate your support! Please log back in to get started!</p>'// plain text body
+    };
+    transporter.sendMail(mailOptions, function (err, info) {
+        if(err)
+          console.log(err)
+        else
+          console.log(info);
+     });
+} 
