@@ -64,6 +64,7 @@ app.post('/processSignup', (request, response ) => {
             if(user) {
                 flag = false;
                 return response.status(401).json({
+                    success: 0,
                     message: "Email already exists"
                 });
             }
@@ -73,12 +74,14 @@ app.post('/processSignup', (request, response ) => {
             flag = false;
             console.log("ERROR");
             response.status(500).json({
+                success: -1,
                 error:err
             });
         });
     
     if(!emailRegex({exact: true}).test(request.body.email)) {
         return response.status(401).json({
+            success: 0,
             message: "Not a valid email"
         });
     }
@@ -86,12 +89,14 @@ app.post('/processSignup', (request, response ) => {
     if(request.body.password.length > 20) {
         flag = false;
         return response.status(401).json({
+            success: 0,
             message: "Password too long"
         });
     }
     if(request.body.password !== request.body.confirmPass) {
         flag = false;
         return response.status(401).json({
+            success: 0,
             message: "Passwords do not match"
         });
     } 
@@ -107,6 +112,7 @@ app.post('/processSignup', (request, response ) => {
         user.save()
             .then(result => {
                 response.status(201).json({
+                    success: 1,
                     message: "User created!",
                     result: result
                 });
@@ -114,6 +120,7 @@ app.post('/processSignup', (request, response ) => {
             .catch(err => {
                 console.log("ERROR");
                 response.status(500).json({
+                    success: -1,
                     error:err
                 });
             });
@@ -128,13 +135,13 @@ app.post('/processLogin', (request, response) => {
     console.log("Password:", password);
     const hashedPW = bcrypt.hashSync(password, NUM_SALTS);
     console.log("hashedPW:", hashedPW); */
-    sess = request.session;
-    sess.email = request.body.email;
+    
 
     User.findOne({ email : request.body.email}) 
         .then(user => {
             if(!user) {
                 return response.status(401).json({
+                    sucess: 0,
                     message: "Email does not exist"
                 });
             } 
@@ -145,11 +152,13 @@ app.post('/processLogin', (request, response) => {
             if(!result) {
                 console.log("FALSE");
                 return response.status(401).json({
+                     sucess: 0,
                      message : "Incorrect password"
                 });
             } else {
                 sess = request.session;
                 sess.email = request.body.email;
+                sess.loggedIn = true;
                 // return response.sendFile(path.resolve('./public/dist/public/index.html'))
                 return response.redirect('/');
             }
@@ -158,7 +167,8 @@ app.post('/processLogin', (request, response) => {
         .catch(err => {
             console.log("HERE");
             return response.status(401).json({
-                message: "Incorrect password"
+                success: -1,
+                message: "Log In Failed"
             });
         });
 
@@ -190,7 +200,6 @@ app.get('/processLogout', (request, response) => {
         if(err) {
             return console.log(err);
         } else {
-            console.log("SUCCESS");
             return response.redirect('/login');
         }
     });
