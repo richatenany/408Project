@@ -5,6 +5,7 @@ const bodyParser=require('body-parser')
 const mongoose=require('mongoose')
 var session=require('express-session')
 const bcrypt=require('bcrypt')
+const emailRegex = require('email-regex');
 
 app.use(express.static('login'));
 app.use(express.static('./public/dist/public'));
@@ -59,35 +60,124 @@ const Task = mongoose.model('Task');
 app.get('/login', (request, response) => {
     return response.sendFile(path.resolve('./login/login.html'))
 })
-app.post('/processLogin', (request, response) => {
-    const {email, password} = request.body;
-    console.log("Email:", email)
-    console.log("Password:", password);
-    const hashedPW = bcrypt.hashSync(password, NUM_SALTS);
-    console.log("hashedPW:", hashedPW);
 
-    User.findOne({email: email}, (error, user) => {
-        console.log("test");
-        if(error){
-            //No user found, display error message
-            const serverResponse = { success: -1, message: "Server Error"};
-            return response.json(serverResponse);
-        }
-        else if(user === null){
-            const serverResponse = { success: 0, message: "User not found"};
-            return response.json(serverResponse);
-        }
-        else{
-            if(bcrypt.compareSync(password, user.password)){
-                //Don't do this, store info in session, and redirect to angular
-                const serverResponse = { success: 1, message:"Login Successful", content: {userInfo: {name: user.name, email: user.email, taskIDs: user.taskIDs}}}
-                return response.json(serverResponse);
+app.post('/processSignup', (request, response ) => {
+    var flag = true;
+    User.findOne({ email : request.body.email}) 
+        .then(user => {
+            if(user) {
+                flag = false;
+                return response.status(401).json({
+                    success: 0,
+                    message: "Email already exists"
+                });
             }
-            const serverResponse = { success: 0, message: "Invalid Login"};
-            return response.json(serverResponse);
+
+        })
+        .catch(err => {
+            flag = false;
+            console.log("ERROR");
+            response.status(500).json({
+                success: -1,
+                error:err
+            });
+        });
+    
+    if(!emailRegex({exact: true}).test(request.body.email)) {
+        return response.status(401).json({
+            success: 0,
+            message: "Not a valid email"
+        });
+    }
+    var pass = request.body.password 
+    if(request.body.password.length > 20) {
+        flag = false;
+        return response.status(401).json({
+            success: 0,
+            message: "Password too long"
+        });
+    }
+    if(request.body.password !== request.body.confirmPass) {
+        flag = false;
+        return response.status(401).json({
+            success: 0,
+            message: "Passwords do not match"
+        });
+    } 
+    
+        
+    if(flag == true) {
+        bcrypt.hash(request.body.confirmPass, 10).then(hash => {
+        const user = new User({
+            name: request.body.name,
+            email: request.body.email,
+            pass: hash
+        });
+        user.save()
+            .then(result => {
+                response.status(201).json({
+                    success: 1,
+                    message: "User created!",
+                    result: result
+                });
+            })
+            .catch(err => {
+                console.log("ERROR");
+                response.status(500).json({
+                    success: -1,
+                    error:err
+                });
+            });
+    });
+    }   
+});
+
+app.post('/processLogin', (request, response) => {
+    
+    User.findOne({ email : request.body.email}) 
+        .then(user => {
+            if(!user) {
+                return response.status(401).json({
+                    sucess: 0,
+                    message: "Email does not exist"
+                });
+            } 
+           return bcrypt.compare(request.body.password, user.pass);
+        })
+        .then(result => {
+            console.log(result);
+            if(!result) {
+                console.log("FALSE");
+                return response.status(401).json({
+                     sucess: 0,
+                     message : "Incorrect password"
+                });
+            } else {
+                sess = request.session;
+                sess.email = request.body.email;
+                sess.loggedIn = true;
+                
+                return response.redirect('/');
+            }
+        })
+        .catch(err => {
+            console.log("HERE");
+            return response.status(401).json({
+                success: -1,
+                message: "Log In Failed"
+            });
+        });
+});
+
+app.get('/processLogout', (request, response) => {
+    request.session.destroy((err) => {
+        if(err) {
+            return console.log(err);
+        } else {
+            return response.redirect('/login');
         }
-    })
-})
+    });
+});
 
 app.post('/createTask', (request, response) => {
     var title = request.body['title'];
