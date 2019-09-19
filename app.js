@@ -85,7 +85,7 @@ app.post('/processLogin', (request, response) => {
 })
 
 app.post('/removeTask', (request, response) => {
-    var title = request.body['title'];
+    var id = request.body['_id'];
     var email = "dummy" //TODO: use backend email
     
     console.log('In remove task');
@@ -97,7 +97,7 @@ app.post('/removeTask', (request, response) => {
         } else if(user == null){
             return response.json({success:0, message:'Unable to find user'})
         } else {
-            Task.findOne({email:email, title:title}, function(error, task){
+            Task.findOne({email:email, _id:id}, function(error, task){
                 if(error){
                     return response.json({success:-1, message: 'Server error'});
                 } else if(task == null){
@@ -115,7 +115,7 @@ app.post('/removeTask', (request, response) => {
                         else{
 
                             //Task removed from User's task list, now remove task from Task table
-                            Task.remove({email:email, title:title}, function(error){
+                            Task.remove({email:email, _id:id}, function(error){
                                 if(error){
                                     return response.json({success:-1, message:'Error in Task.remove'});
                                 } else {
