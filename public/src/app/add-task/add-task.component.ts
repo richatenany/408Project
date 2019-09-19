@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-add-task',
@@ -7,9 +8,36 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddTaskComponent implements OnInit {
 
-  constructor() { }
+  title:string;
+  weight:number;
+  category:string;
+  description:string;
+  date:string;
+
+  @Output() switchBack: EventEmitter<{success: boolean}>;
+
+  constructor(private _http: HttpClient) { 
+    this.title=''
+    this.weight=0;
+    this.category='';
+    this.description=''
+    this.date=''
+    this.switchBack = new EventEmitter<{success: boolean}>();
+  }
 
   ngOnInit() {
+  }
+  cancelPressed(){
+    return this.switchBack.emit({success: false});
+  }
+  donePressed(){
+    this._http.post('/testRoute',{title: this.title, weight: this.weight, category:this.category, description: this.description, date: this.date}).subscribe(data=>{
+      console.log("Received response:", data);
+      if(data['success'] === 1) {
+        return this.switchBack.emit({success: true});
+      }
+    })
+    
   }
 
 }

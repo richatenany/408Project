@@ -32,4 +32,8 @@ export class DashboardComponent implements OnInit {
     console.log("Received event:", info);
   }
 
+  switchBackListener(info: {success: boolean}){
+    this.addPressed = false;
+  }
+
 }
