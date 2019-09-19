@@ -7,7 +7,7 @@ var session=require('express-session')
 const bcrypt=require('bcrypt')
 
 app.use(express.static('login'));
-app.use(express.static('./public/dist/public'));
+app.use(express.static('/../public/dist/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}))
 
