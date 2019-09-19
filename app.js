@@ -96,7 +96,7 @@ app.post('/createTask', (request, response) => {
     var weight = request.body['weight'];
     var category = request.body['category'];
     var email = "dummy"; //todo change to get email from backend.
-    var status = request.body['status'];
+    var status = 0;
 
     console.log("in create task \n");
 
