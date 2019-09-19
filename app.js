@@ -27,7 +27,11 @@ app.use(session({
 
 const NUM_SALTS = 10;
 
-mongoose.connect('mongodb://localhost/StratifyDB');
+mongoose.connect('mongodb://localhost/StratifyDB').then(() => {
+    console.log("Connected to Database");
+    }).catch((err) => {
+        console.log("Not Connected to Database ERROR! ", err);
+});
 
 const UserSchema = new mongoose.Schema({
     name: {type:String, required:[true, "Name is required for User."], minlength: 2},
@@ -63,6 +67,7 @@ app.post('/processLogin', (request, response) => {
     console.log("hashedPW:", hashedPW);
 
     User.findOne({email: email}, (error, user) => {
+        console.log("test");
         if(error){
             //No user found, display error message
             const serverResponse = { success: -1, message: "Server Error"};
@@ -80,6 +85,62 @@ app.post('/processLogin', (request, response) => {
             }
             const serverResponse = { success: 0, message: "Invalid Login"};
             return response.json(serverResponse);
+        }
+    })
+})
+
+app.post('/createTask', (request, response) => {
+    var title = request.body['title'];
+    var deadLine = request.body['deadLine'];
+    var desc = request.body['desc'];
+    var weight = request.body['weight'];
+    var category = request.body['category'];
+    var email = "dummy"; //todo change to get email from backend.
+    var status = 0;
+
+    console.log("in create task \n");
+
+    //validate input
+    if(Date.parse(deadLine) < Date.now()) { return response.json({success:0, message:"Invalid deadline: must be after current date"})};
+    if(weight < 0) { return response.json({success:0, message: "Invalid weight: task weights must be postive."})};
+
+    User.findOne({email:email}, function(error, user){
+        console.log("finding user...");
+        if(error){
+            return response.json({success:-1, message: 'Server error'});
+        } else if(user == null){
+            return response.json({success:0, message:'Unable to find user'})
+        } else {
+            var newTask = new Task({title:title, deadLine:deadLine, desc:desc, weight:weight, category:category, email:email, status:status});
+            
+            Task.findOne({email:email, title:title}, function(error, task){
+                if(error){
+                    return response.json({success:-1, message: 'Server error'});
+                } else if(task == null){ //I.E. this user doesn't already have a task with this title
+                    User.findOneAndUpdate({email:email}, {$addToSet: {taskIDs:newTask._id}}, function(error, user){
+                        console.log('in update');
+                        if(error){
+                            return response.json({success:-1, message:'Server error or saving error'})
+                        }
+                        else if(user==null){
+                            return response.json({success:0, message:'Unable to find user'})
+                        }
+                        else{
+                            console.log('newTask: ', newTask);
+                            newTask.save(function(error){
+                                if(error){
+                                    return response.json({success:0, message:"There was an error creating your task"});
+                                } else {
+                                    return response.json({success:1, message:"User found and task added: ", newTask});
+                                }
+                            });
+                        }
+                    })
+                } else { //I.E. this user already has a task with this title
+                    return response.json({success:0, message:'Task titles must be unique'});
+                }
+            })
+            
         }
     })
 })
