@@ -186,7 +186,7 @@ app.post('/createTask', (request, response) => {
     var desc = request.body['desc'];
     var weight = request.body['weight'];
     var category = request.body['category'];
-    var email = "dummy"; //todo change to get email from backend.
+    var email = sess.email;
     var status = 0;
 
     console.log("in create task \n");
@@ -238,7 +238,7 @@ app.post('/createTask', (request, response) => {
 
 app.post('/removeTask', (request, response) => {
     var id = request.body['_id'];
-    var email = "dummy" //TODO: use backend email
+    var email = sess.email; //TODO: use backend email
 
     console.log('In remove task');
 
