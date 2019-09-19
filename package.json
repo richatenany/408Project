@@ -7,7 +7,7 @@
     "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "heroku-prebuild": "npm install && npm install -g @angular/cli",
-    "heroku-postbuild": "cd public && npm install && ng build --prod && cd .."
+    "heroku-postbuild": "cd public && npm install && npm install --only=dev && ng build --prod && cd .."
   },
   "repository": {
     "type": "git",
