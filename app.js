@@ -28,7 +28,7 @@ app.use(session({
 
 const NUM_SALTS = 10;
 
-mongoose.connect('mongodb://localhost/StratifyDB', {useNewUrlParser: true, useUnifiedTopology: true});
+
 
 const UserSchema = new mongoose.Schema({
     name: {type:String, required:[true, "Name is required for User."], minlength: 2},
@@ -129,14 +129,7 @@ app.post('/processSignup', (request, response ) => {
 });
 
 app.post('/processLogin', (request, response) => {
-    /* console.log("HELLO");
-    const {email, password} = request.body;
-    console.log("Email:", email);
-    console.log("Password:", password);
-    const hashedPW = bcrypt.hashSync(password, NUM_SALTS);
-    console.log("hashedPW:", hashedPW); */
     
-
     User.findOne({ email : request.body.email}) 
         .then(user => {
             if(!user) {
@@ -159,7 +152,7 @@ app.post('/processLogin', (request, response) => {
                 sess = request.session;
                 sess.email = request.body.email;
                 sess.loggedIn = true;
-                // return response.sendFile(path.resolve('./public/dist/public/index.html'))
+                
                 return response.redirect('/');
             }
 
@@ -172,27 +165,6 @@ app.post('/processLogin', (request, response) => {
             });
         });
 
-   /* User.findOne({email: email}, (error, user) => {
-        if(error){
-            //No user found, display error message
-            const serverResponse = { success: -1, message: "Server Error"};
-            return response.json(serverResponse);
-        }
-        else if(user === null){
-            const serverResponse = { success: 0, message: "User not found"};
-            return response.json(serverResponse);
-        }
-        else{
-            if(bcrypt.compareSync(password, user.password)){
-                //Don't do this, store info in session, and redirect to angular
-                const serverResponse = { success: 1, message:"Login Successful", content: {userInfo: {name: user.name, email: user.email, taskIDs: user.taskIDs}}}
-                return response.json(serverResponse);
-            }
-        }
-            const serverResponse = { success: 0, message: "Invalid Login"};
-            return response.json(serverResponse);
-        
-    }) */
 });
 
 app.get('/processLogout', (request, response) => {
