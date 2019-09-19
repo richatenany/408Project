@@ -1,6 +1,6 @@
 div.header{
-    background-color: #4F54A5;
-    opacity: .9;
+    background-color: #043A81;
+    opacity: .8;
     margin: 0;
     font-family: 'Ubuntu', sans-serif;
 }
@@ -14,7 +14,7 @@ div#logoutDiv{
     margin-right: 15px;
 }
 #logoutButton:hover{
-    color: #ECA2C3
+    color: #0196FD;
 }
 p#bigTitleText{
     font-size: 32px;
@@ -22,6 +22,7 @@ p#bigTitleText{
     margin-top: 0;
     text-align: center;
     margin-bottom:3px;
+    letter-spacing: 8px;
 }
 div#tabsOuter {
     display: flex;
@@ -41,5 +42,5 @@ div#tabsInner a{
     color: white;
 }
 div#tabsInner a:hover{
-    color: #ECA2C3
+    color: #0196FD
 }

@@ -20,21 +20,12 @@
     margin-left: 2%;
     text-decoration: none;
 }
-#submitBtn{
-    background-color: #43499D;
-    padding: 5px;
-    width: 150px;
-    color: white;
-    border-radius: 4px;
-    opacity: .8;
-    margin-top: 50px;
-    /* margin-left: -400px; */
-}
+
 #format{
    padding: 10px;   
 }
 #confirmBtn{
-    background-color: #43499D;
+    background-color: #006AC1;
     padding: 5px;
     width: 150px;
     color: white;

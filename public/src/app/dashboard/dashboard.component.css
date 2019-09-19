@@ -1,0 +1,15 @@
+.flex-grid-thirds {
+    display: flex;
+    justify-content: space-between;
+    /* margin: 15px; */
+    font-size: 20px;
+  }
+  .flex-grid-thirds > * {
+    width: 33%;
+  }
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    padding: 20px;
+  }

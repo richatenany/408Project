@@ -8,6 +8,7 @@ import { HeaderComponent } from './header/header.component';
 import { DashboardSectionComponent } from './dashboard-section/dashboard-section.component';
 import { TaskInfoComponent } from './task-info/task-info.component';
 import { TaskCardComponent } from './task-card/task-card.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { TaskCardComponent } from './task-card/task-card.component';
     HeaderComponent,
     DashboardSectionComponent,
     TaskInfoComponent,
-    TaskCardComponent
+    TaskCardComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,

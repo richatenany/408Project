@@ -28,7 +28,11 @@ app.use(session({
 
 const NUM_SALTS = 10;
 
-
+mongoose.connect('mongodb://localhost/StratifyDB', {useNewUrlParser: true, useUnifiedTopology: true}).then(() => {
+    console.log("Connected to Database");
+    }).catch((err) => {
+        console.log("Not Connected to Database ERROR! ", err);
+});
 
 const UserSchema = new mongoose.Schema({
     name: {type:String, required:[true, "Name is required for User."], minlength: 2},
@@ -155,7 +159,6 @@ app.post('/processLogin', (request, response) => {
                 
                 return response.redirect('/');
             }
-
         })
         .catch(err => {
             console.log("HERE");
@@ -164,7 +167,6 @@ app.post('/processLogin', (request, response) => {
                 message: "Log In Failed"
             });
         });
-
 });
 
 app.get('/processLogout', (request, response) => {
@@ -176,6 +178,111 @@ app.get('/processLogout', (request, response) => {
         }
     });
 });
+
+app.post('/createTask', (request, response) => {
+    var title = request.body['title'];
+    var deadLine = request.body['deadLine'];
+    var desc = request.body['desc'];
+    var weight = request.body['weight'];
+    var category = request.body['category'];
+    var email = "dummy"; //todo change to get email from backend.
+    var status = 0;
+
+    console.log("in create task \n");
+
+    //validate input
+    if(Date.parse(deadLine) < Date.now()) { return response.json({success:0, message:"Invalid deadline: must be after current date"})};
+    if(weight < 0) { return response.json({success:0, message: "Invalid weight: task weights must be postive."})};
+
+    User.findOne({email:email}, function(error, user){
+        console.log("finding user...");
+        if(error){
+            return response.json({success:-1, message: 'Server error'});
+        } else if(user == null){
+            return response.json({success:0, message:'Unable to find user'})
+        } else {
+            var newTask = new Task({title:title, deadLine:deadLine, desc:desc, weight:weight, category:category, email:email, status:status});
+            
+            Task.findOne({email:email, title:title}, function(error, task){
+                if(error){
+                    return response.json({success:-1, message: 'Server error'});
+                } else if(task == null){ //I.E. this user doesn't already have a task with this title
+                    User.findOneAndUpdate({email:email}, {$addToSet: {taskIDs:newTask._id}}, function(error, user){
+                        console.log('in update');
+                        if(error){
+                            return response.json({success:-1, message:'Server error or saving error'})
+                        }
+                        else if(user==null){
+                            return response.json({success:0, message:'Unable to find user'})
+                        }
+                        else{
+                            console.log('newTask: ', newTask);
+                            newTask.save(function(error){
+                                if(error){
+                                    return response.json({success:0, message:"There was an error creating your task"});
+                                } else {
+                                    return response.json({success:1, message:"User found and task added: ", newTask});
+                                }
+                            });
+                        }
+                    })
+                } else { //I.E. this user already has a task with this title
+                    return response.json({success:0, message:'Task titles must be unique'});
+                }
+            })
+            
+        }
+    })
+})
+
+app.post('/removeTask', (request, response) => {
+    var id = request.body['_id'];
+    var email = "dummy" //TODO: use backend email
+
+    console.log('In remove task');
+
+    User.findOne({email:email}, function(error, user){
+        console.log("finding user...");
+        if(error){
+            return response.json({success:-1, message: 'Server error'});
+        } else if(user == null){
+            return response.json({success:0, message:'Unable to find user'})
+        } else {
+            Task.findOne({email:email, _id:id}, function(error, task){
+                if(error){
+                    return response.json({success:-1, message: 'Server error'});
+                } else if(task == null){
+                    return response.json({success:0, message:'Task not found'});
+                } else { 
+                    console.log('task id to be removed: ', task._id)
+                    User.findOneAndUpdate({email:email}, {$pull: {taskIDs: task._id}}, function(error, user){
+                        console.log('in update');
+                        if(error){
+                            return response.json({success:-1, message:'Server error or saving error'})
+                        }
+                        else if(user==null){
+                            return response.json({success:0, message:'Unable to find user'})
+                        }
+                        else{
+
+                            //Task removed from User's task list, now remove task from Task table
+                            Task.remove({email:email, _id:id}, function(error){
+                                if(error){
+                                    return response.json({success:-1, message:'Error in Task.remove'});
+                                } else {
+                                    return response.json({success:0, message:'Task found and removed.'})
+                                }
+                            })
+                        };
+
+                    })
+                }
+            })
+
+        }
+    })
+
+})
 
 //This has to be the last one
 app.all('*', (request, response, next) => {
