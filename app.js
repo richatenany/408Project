@@ -8,6 +8,9 @@ const bcrypt=require('bcrypt')
 const nodemailer = require('nodemailer');
 const emailRegex = require('email-regex');
 
+app.set('views', __dirname + '/login');
+app.set('view engine', 'ejs');
+
 app.use(express.static('login'));
 app.use(express.static('./public/dist/public'));
 
@@ -64,7 +67,12 @@ app.get('/login', (request, response) => {
     if(sess.loggedIn !== undefined && sess.loggedIn === true){
         return response.redirect('/')
     }
-    return response.sendFile(path.resolve('./login/login.html'))
+    var message = "";
+    return response.render('login', {message : message});
+})
+
+app.get('/register', (request, response) => {
+    return response.sendFile(path.resolve("./login/newAcct.html"));
 })
 
 app.post('/processSignup', (request, response ) => {
@@ -76,7 +84,7 @@ app.post('/processSignup', (request, response ) => {
                 return response.status(401).json({
                     success: 0,
                     message: "Email already exists"
-                });
+                }); 
             }
 
         })
@@ -139,21 +147,20 @@ app.post('/processLogin', (request, response) => {
     User.findOne({ email : request.body.email}) 
         .then(user => {
             if(!user) {
-                return response.status(401).json({
+                var message = "Email or password is incorrect";
+                return response.render("login.ejs", {message : message});
+                /* return response.status(401).json({
                     sucess: 0,
                     message: "Email does not exist"
-                });
+                }); */
             } 
            return bcrypt.compare(request.body.password, user.pass);
         })
         .then(result => {
             console.log(result);
             if(!result) {
-                console.log("FALSE");
-                return response.status(401).json({
-                     sucess: 0,
-                     message : "Incorrect password"
-                });
+                var message = "Email or password is incorrect";
+                return response.render("login.ejs", {message : message});
             } else {
                 sess = request.session;
                 sess.email = request.body.email;
