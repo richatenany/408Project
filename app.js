@@ -114,6 +114,9 @@ app.post('/processSignup', (request, response ) => {
             email: request.body.email,
             pass: hash
         });
+        console.log("Email", request.body.email);
+        console.log("Email", typeof(request.body.email));
+        emailConfirmation(request.body.email);
         user.save()
             .then(result => {
                 response.status(201).json({
@@ -295,9 +298,12 @@ app.listen(8000, () => {
 })
 
 function emailConfirmation(email) {
-    email = 'thearshadalikhan@gmail.com';
+   // email = 'thearshadalikhan@gmail.com';
     var transporter = nodemailer.createTransport({
         service: 'gmail',
+        host: 'smtp.gmail.com',
+        port: 587,
+        secure: false,
         auth: {
                user: 'theofficialstratify@gmail.com',
                pass: 'Stratify4082019'
