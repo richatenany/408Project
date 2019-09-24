@@ -189,6 +189,7 @@ app.post('/createTask', (request, response) => {
     var desc = request.body['desc'];
     var weight = request.body['weight'];
     var category = request.body['category'];
+    var sess = request.session;
     var email = sess.email;
     var status = 0;
 
@@ -240,8 +241,9 @@ app.post('/createTask', (request, response) => {
 })
 
 app.post('/removeTask', (request, response) => {
+    var sess = request.session;
     var id = request.body['_id'];
-    var email = sess.email; //TODO: use backend email
+    var email = sess.email; 
 
     console.log('In remove task');
 
@@ -288,10 +290,56 @@ app.post('/removeTask', (request, response) => {
 
 })
 
+app.get('/getUserTasks', (request, response) => {
+    var sess = request.session;
+    var email = sess.email; 
+
+    console.log('In getUserTasks');
+
+    User.findOne({email:email}, function(error, user){
+        console.log("finding user...");
+        if(error){
+            return response.json({success:-1, message: 'Server error'});
+        } else if(user == null){
+            return response.json({success:0, message:'Unable to find user'})
+        } else {
+            Task.find({email:email}, function(error, tasks){
+                if(error){
+                    return response.json({success:-1, message: 'Server error'});
+                } else if(tasks == null){
+                    return response.json({success:0, message:'No tasks found'});
+                } else {
+                    var toDo = new Array(0);
+                    var inProgress = new Array(0);
+                    var done = new Array(0);
+                    var output = new Array(0);
+
+                    tasks.forEach(element => {
+                        if(element.status == 0){ toDo.push(element); }
+                        else if (element.status == 1){ inProgress.push(element); }
+                        else if (element.status == 2){ done.push(element); }
+                    });
+                    output.push(toDo);
+                    output.push(inProgress);
+                    output.push(done);
+                    return response.json({success:1, message:'yes', output:output});
+                }
+            })
+
+        }
+    })
+
+})
+
 //This has to be the last one
 app.all('*', (request, response, next) => {
     return response.sendFile(path.resolve('./public/dist/public/index.html'))
 })
+
+
+
+
+
 
 app.listen(8000, () => {
     console.log("Server is listening on port 8000");
