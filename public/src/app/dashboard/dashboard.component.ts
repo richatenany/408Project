@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,13 +10,20 @@ export class DashboardComponent implements OnInit {
   addPressed:boolean;
   sectionToSwitch: number;
   showingTaskID: string;
-  constructor() {
+  constructor(private _http: HttpClient) {
     this.addPressed = false;
     this.sectionToSwitch = -1;
     this.showingTaskID = '';
   }
 
   ngOnInit() {
+    this._http.get('/getUserTasks').subscribe(data=>{
+      console.log("Received response:", data);
+      if(data['success'] === 1) {
+        console.log(data);
+        return data;
+      }
+    })
   }
 
   switchListener(info: {newTab:string, section:number, taskID?:string}) {
