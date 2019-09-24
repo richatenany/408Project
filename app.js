@@ -10,6 +10,7 @@ const emailRegex = require('email-regex');
 
 app.use(express.static('login'));
 app.use(express.static('./public/dist/public'));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}))
 
@@ -59,6 +60,10 @@ mongoose.model('Task', TaskSchema);
 const Task = mongoose.model('Task');
 
 app.get('/login', (request, response) => {
+    sess = request.session;
+    if(sess.loggedIn !== undefined && sess.loggedIn === true){
+        return response.redirect('/')
+    }
     return response.sendFile(path.resolve('./login/login.html'))
 })
 
@@ -116,11 +121,7 @@ app.post('/processSignup', (request, response ) => {
         });
         user.save()
             .then(result => {
-                response.status(201).json({
-                    success: 1,
-                    message: "User created!",
-                    result: result
-                });
+                return response.redirect('/login');
             })
             .catch(err => {
                 console.log("ERROR");
@@ -287,6 +288,10 @@ app.post('/removeTask', (request, response) => {
 
 //This has to be the last one
 app.all('*', (request, response, next) => {
+    sess = request.session;
+    if(sess.loggedIn === undefined || sess.loggedIn === false) {
+        return response.redirect('/login');
+    }
     return response.sendFile(path.resolve('./public/dist/public/index.html'))
 })
 
