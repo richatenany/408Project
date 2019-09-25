@@ -72,7 +72,13 @@ app.get('/login', (request, response) => {
 })
 
 app.get('/register', (request, response) => {
-    return response.sendFile(path.resolve("./login/newAcct.html"));
+    sess = request.session;
+    if(sess.loggedIn !== undefined && sess.loggedIn === true){
+        return response.redirect('/')
+    }
+    var message = "";
+    return response.render('newAcct', {message : message});
+    // return response.sendFile(path.resolve("./login/newAcct.html"));
 })
 
 app.post('/processSignup', (request, response ) => {
