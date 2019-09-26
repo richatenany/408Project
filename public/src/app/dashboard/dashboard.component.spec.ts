@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { Component, Input } from '@angular/core';
 import { DashboardComponent } from './dashboard.component';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
@@ -8,7 +9,14 @@ describe('DashboardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DashboardComponent ]
+      imports:[
+        HttpClientModule
+      ],
+      declarations: [ DashboardComponent,
+      DashboardSectionComponent,
+      AddTaskComponent,
+      TaskInfoComponent
+    ]
     })
     .compileComponents();
   }));
@@ -23,3 +31,20 @@ describe('DashboardComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+@Component({
+  selector: 'app-dashboard-section',
+  template: ''
+})
+class DashboardSectionComponent{}
+@Component({
+  selector: 'app-add-task',
+  template: ''
+})
+class AddTaskComponent{}
+@Component({
+  selector: 'app-task-info',
+  template: ''
+})
+class TaskInfoComponent{
+  @Input() taskID: string;
+}

@@ -11,7 +11,6 @@ import { HttpClient } from '@angular/common/http';
 export class DashboardSectionComponent implements OnInit {
   
   @Input() sectionName;
-  @Input() items;
   @Output() switchTo: EventEmitter<{newTab: string, section: number, taskID?: string}>;
   
   tasks;
@@ -33,7 +32,6 @@ export class DashboardSectionComponent implements OnInit {
     else{
       this.fetchDone();
     }
-    console.log("Items:", this.items)
   }
   plusClicked(){
     this.switchTo.emit({newTab:'addTask', section:0})

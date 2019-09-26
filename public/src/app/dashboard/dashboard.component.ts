@@ -10,9 +10,6 @@ export class DashboardComponent implements OnInit {
   addPressed:boolean;
   sectionToSwitch: number;
   showingTaskID: string;
-  toDo:Object;
-  inProgress:Object
-  done:Object
 
   constructor(private _http: HttpClient) {
     this.addPressed = false;
