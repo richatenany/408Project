@@ -16,10 +16,13 @@
                         <a href="/login" id="arrow"> &#8592</h></a><br>
                         <h id="title"> STRATIFY </h>
                         <form action='/processSignup' method='post'>
-                                <input id="creds"  type="text" placeholder="Enter Name" name="name">
-                                <input id="creds2" type="text" placeholder="Enter Email" name="email">
-                                <input id="creds3" type="password" placeholder="Choose Password" name="password"> <br>
-                                <input id="creds4" type="password" placeholder="Confirm Password" name="confirmPass"> <br>
+                                <%if (message.length > 0) { %>
+                                    <%= message %>
+                                <% } %>
+                                <input id="creds"  type="text" placeholder="Enter Name" name="name" required>
+                                <input id="creds2" type="text" placeholder="Enter Email" name="email" required>
+                                <input id="creds3" type="password" placeholder="Choose Password" name="password" required> <br>
+                                <input id="creds4" type="password" placeholder="Confirm Password" name="confirmPass" required> <br>
                                 <div id='buttonDiv'>
                                     <input id="goBtn" type="submit" value="Go!">
                                 </div>
