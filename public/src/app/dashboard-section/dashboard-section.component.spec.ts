@@ -16,8 +16,9 @@ describe('DashboardSectionComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DashboardSectionComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
     component.items=[]
+    fixture.detectChanges();
+    
   });
 
   it('should create', () => {
