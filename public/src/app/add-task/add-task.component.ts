@@ -31,7 +31,7 @@ export class AddTaskComponent implements OnInit {
     return this.switchBack.emit({success: false});
   }
   donePressed(){
-    this._http.post('/createTask',{title: this.title, weight: this.weight, category:this.category, description: this.description, date: this.date}).subscribe(data=>{
+    this._http.post('/createTask',{title: this.title, weight: this.weight, category:this.category, desc: this.description, date: this.date}).subscribe(data=>{
       console.log("Received response:", data);
       if(data['success'] === 1) {
         return this.switchBack.emit({success: true});
