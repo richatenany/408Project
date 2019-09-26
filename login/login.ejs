@@ -19,6 +19,9 @@
                     <p id="title">STRATIFY</p>
                     <div id='formDiv'>
                     <form action='/processLogin' method='post'>
+                        <%if (message.length > 0) { %>
+                                <p>Email or password is incorrect</p>
+                        <% } %>
                         <input id="creds" type="text" placeholder="Enter email" name='email'>
                         <input id="creds2" type="password" placeholder="Enter password" name='password'> 
                         <div id='buttonDiv'>
@@ -28,7 +31,7 @@
                 </div>
                 <div id="align">
                         <a href="forgotPass.html" id="pass">Forgot Password?</a>
-                        <a href="/register" id="newAcct">Don't have an account?</a>
+                        <a href="newAcct.html" id="newAcct">Don't have an account?</a>
                 </div>
                    
                     

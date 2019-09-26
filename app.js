@@ -8,8 +8,12 @@ const bcrypt=require('bcrypt')
 const nodemailer = require('nodemailer');
 const emailRegex = require('email-regex');
 
+app.set('views', __dirname + '/login');
+app.set('view engine', 'ejs');
+
 app.use(express.static('login'));
 app.use(express.static('./public/dist/public'));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}))
 
@@ -59,7 +63,22 @@ mongoose.model('Task', TaskSchema);
 const Task = mongoose.model('Task');
 
 app.get('/login', (request, response) => {
-    return response.sendFile(path.resolve('./login/login.html'))
+    sess = request.session;
+    if(sess.loggedIn !== undefined && sess.loggedIn === true){
+        return response.redirect('/')
+    }
+    var message = "";
+    return response.render('login', {message : message});
+})
+
+app.get('/register', (request, response) => {
+    sess = request.session;
+    if(sess.loggedIn !== undefined && sess.loggedIn === true){
+        return response.redirect('/')
+    }
+    var message = "";
+    return response.render('newAcct', {message : message});
+    // return response.sendFile(path.resolve("./login/newAcct.html"));
 })
 
 app.post('/processSignup', (request, response ) => {
@@ -71,7 +90,7 @@ app.post('/processSignup', (request, response ) => {
                 return response.status(401).json({
                     success: 0,
                     message: "Email already exists"
-                });
+                }); 
             }
 
         })
@@ -119,11 +138,7 @@ app.post('/processSignup', (request, response ) => {
         emailConfirmation(request.body.email);
         user.save()
             .then(result => {
-                response.status(201).json({
-                    success: 1,
-                    message: "User created!",
-                    result: result
-                });
+                return response.redirect('/login');
             })
             .catch(err => {
                 console.log("ERROR");
@@ -141,21 +156,20 @@ app.post('/processLogin', (request, response) => {
     User.findOne({ email : request.body.email}) 
         .then(user => {
             if(!user) {
-                return response.status(401).json({
+                var message = "Email or password is incorrect";
+                return response.render("login.ejs", {message : message});
+                /* return response.status(401).json({
                     sucess: 0,
                     message: "Email does not exist"
-                });
+                }); */
             } 
            return bcrypt.compare(request.body.password, user.pass);
         })
         .then(result => {
             console.log(result);
             if(!result) {
-                console.log("FALSE");
-                return response.status(401).json({
-                     sucess: 0,
-                     message : "Incorrect password"
-                });
+                var message = "Email or password is incorrect";
+                return response.render("login.ejs", {message : message});
             } else {
                 sess = request.session;
                 sess.email = request.body.email;
@@ -333,6 +347,10 @@ app.get('/getUserTasks', (request, response) => {
 
 //This has to be the last one
 app.all('*', (request, response, next) => {
+    sess = request.session;
+    if(sess.loggedIn === undefined || sess.loggedIn === false) {
+        return response.redirect('/login');
+    }
     return response.sendFile(path.resolve('./public/dist/public/index.html'))
 })
 
