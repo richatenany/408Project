@@ -73,23 +73,46 @@ app.get('/login', (request, response) => {
 
 app.get('/register', (request, response) => {
     sess = request.session;
+    
     if(sess.loggedIn !== undefined && sess.loggedIn === true){
         return response.redirect('/')
     }
     var message = "";
+    if(sess.ERROR1 == true) {
+        message += "Email is already in use. ";
+        sess.ERROR1 = false;
+    } 
+    if(sess.ERROR2 == true) {
+        message += "Not a valid email. ";
+        sess.ERROR2 = false;
+    } 
+    if(sess.ERROR3 == true) {
+        message += "Password is too long. ";
+        sess.ERROR3 = false;
+    } 
+    if(sess.ERROR4 == true) {
+        message += "Passwords do not match. ";
+        sess.ERROR4 = false;
+    }
+
     return response.render('newAcct', {message : message});
 })
 
 app.post('/processSignup', (request, response ) => {
     var flag = true;
+    sess = request.session;
+
+    sess.ERROR1 = false;
+    sess.ERROR2 = false;
+    sess.ERROR3 = false;
+    sess.ERROR4 = false;
+
     User.findOne({ email : request.body.email}) 
         .then(user => {
             if(user) {
                 flag = false;
-                return response.status(401).json({
-                    success: 0,
-                    message: "Email already exists"
-                }); 
+                sess.ERROR1 = true;
+                
             }
 
         })
@@ -103,26 +126,25 @@ app.post('/processSignup', (request, response ) => {
         });
     
     if(!emailRegex({exact: true}).test(request.body.email)) {
-        return response.status(401).json({
-            success: 0,
-            message: "Not a valid email"
-        });
+        flag = false;
+        sess.ERROR2 = true;
+        //return response.redirect("/register");
     }
     var pass = request.body.password 
     if(request.body.password.length > 20) {
         flag = false;
-        return response.status(401).json({
-            success: 0,
-            message: "Password too long"
-        });
+        sess.ERROR3 = true;
+        //return response.redirect("/register");
     }
     if(request.body.password !== request.body.confirmPass) {
         flag = false;
-        return response.status(401).json({
-            success: 0,
-            message: "Passwords do not match"
-        });
+        sess.ERROR4 = true;
+        //return response.redirect("/register");
     } 
+
+    if(flag == false) {
+        return response.redirect("/register");
+    }
     
         
     if(flag == true) {
@@ -132,8 +154,6 @@ app.post('/processSignup', (request, response ) => {
             email: request.body.email,
             pass: hash
         });
-        console.log("Email", request.body.email);
-        console.log("Email", typeof(request.body.email));
         emailConfirmation(request.body.email);
         user.save()
             .then(result => {
@@ -173,7 +193,7 @@ app.post('/processLogin', (request, response) => {
                 sess = request.session;
                 sess.email = request.body.email;
                 sess.loggedIn = true;
-                
+                var value = true;
                 return response.redirect('/');
             }
         })

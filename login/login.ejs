@@ -20,10 +20,11 @@
                     <div id='formDiv'>
                     <form action='/processLogin' method='post'>
                         <%if (message.length > 0) { %>
-                                <p>Email or password is incorrect</p>
+                            <p>Email or password is incorrect</p>
                         <% } %>
-                        <input id="creds" type="text" placeholder="Enter email" name='email'>
-                        <input id="creds2" type="password" placeholder="Enter password" name='password'> 
+                        <input id="creds" type="text" placeholder="Enter email" name='email' required>
+                        
+                        <input id="creds2" type="password" placeholder="Enter password" name='password' required> 
                         <div id='buttonDiv'>
                             <input id="loginBtn" type="submit" value="Login"/>
                         </div>
