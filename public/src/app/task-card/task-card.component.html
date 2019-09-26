@@ -12,11 +12,14 @@
         <p class='taskDescription'>{{description}}</p>
     </div>
     <div class="dropdown">
-        <select>
-            <option>To-Do</option>
-            <option>In-Progress</option>
-            <option>Done</option>
+        <select (change)="statusChanged(t.value)" #t>
+            <option *ngIf="currentStatus==0" selected value=0>To-Do</option>
+            <option *ngIf="currentStatus!=0" value=0 >To-Do</option>
+            <option *ngIf="currentStatus==1" selected value=1>In-Progress</option>
+            <option *ngIf="currentStatus!=1" value=1>In-Progress</option>
+            <option *ngIf="currentStatus==2" selected value=2>Done</option>
+            <option *ngIf="currentStatus!=2" value=2>Done</option>
         </select>
     </div>
-    <span id="remove" class="glyphicon glyphicon-trash"></span>
+    <span id="remove" class="glyphicon glyphicon-trash" (click)="removeClicked()"></span>
 </div>

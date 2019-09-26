@@ -21,17 +21,6 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this._http.get('/getUserTasks').subscribe(data=>{
-      console.log("Received response:", data);
-      if(data['success'] === 1) {
-        this.toDo=data['content']['toDo'];
-        this.inProgress=data['content']['inProgress'];
-        this.done=data['content']['done'];
-        console.log('toDo:', this.toDo)
-        // console.log(data);
-        // return data;
-      }
-    })
   }
 
   switchListener(info: {newTab:string, section:number, taskID?:string}) {

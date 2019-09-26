@@ -19,9 +19,9 @@ app.use(bodyParser.urlencoded({extended:true}))
 
 app.use(session({
     secret:'StratifySecrets!!',
-    resave:false,
+    resave:true,
     saveUninitialized:true,
-    cookie:{maxAge:60000}
+    cookie:{maxAge:7*24*60*60*1000}
 }))
 
 // type SUCCESS_STATE = -1 | 0 | 1;
@@ -73,24 +73,46 @@ app.get('/login', (request, response) => {
 
 app.get('/register', (request, response) => {
     sess = request.session;
+    
     if(sess.loggedIn !== undefined && sess.loggedIn === true){
         return response.redirect('/')
     }
     var message = "";
+    if(sess.ERROR1 == true) {
+        message += "Email is already in use. ";
+        sess.ERROR1 = false;
+    } 
+    if(sess.ERROR2 == true) {
+        message += "Not a valid email. ";
+        sess.ERROR2 = false;
+    } 
+    if(sess.ERROR3 == true) {
+        message += "Password is too long. ";
+        sess.ERROR3 = false;
+    } 
+    if(sess.ERROR4 == true) {
+        message += "Passwords do not match. ";
+        sess.ERROR4 = false;
+    }
+
     return response.render('newAcct', {message : message});
-    // return response.sendFile(path.resolve("./login/newAcct.html"));
 })
 
 app.post('/processSignup', (request, response ) => {
     var flag = true;
+    sess = request.session;
+
+    sess.ERROR1 = false;
+    sess.ERROR2 = false;
+    sess.ERROR3 = false;
+    sess.ERROR4 = false;
+
     User.findOne({ email : request.body.email}) 
         .then(user => {
             if(user) {
                 flag = false;
-                return response.status(401).json({
-                    success: 0,
-                    message: "Email already exists"
-                }); 
+                sess.ERROR1 = true;
+                
             }
 
         })
@@ -104,26 +126,25 @@ app.post('/processSignup', (request, response ) => {
         });
     
     if(!emailRegex({exact: true}).test(request.body.email)) {
-        return response.status(401).json({
-            success: 0,
-            message: "Not a valid email"
-        });
+        flag = false;
+        sess.ERROR2 = true;
+        //return response.redirect("/register");
     }
     var pass = request.body.password 
     if(request.body.password.length > 20) {
         flag = false;
-        return response.status(401).json({
-            success: 0,
-            message: "Password too long"
-        });
+        sess.ERROR3 = true;
+        //return response.redirect("/register");
     }
     if(request.body.password !== request.body.confirmPass) {
         flag = false;
-        return response.status(401).json({
-            success: 0,
-            message: "Passwords do not match"
-        });
+        sess.ERROR4 = true;
+        //return response.redirect("/register");
     } 
+
+    if(flag == false) {
+        return response.redirect("/register");
+    }
     
         
     if(flag == true) {
@@ -133,8 +154,6 @@ app.post('/processSignup', (request, response ) => {
             email: request.body.email,
             pass: hash
         });
-        console.log("Email", request.body.email);
-        console.log("Email", typeof(request.body.email));
         emailConfirmation(request.body.email);
         user.save()
             .then(result => {
@@ -174,7 +193,7 @@ app.post('/processLogin', (request, response) => {
                 sess = request.session;
                 sess.email = request.body.email;
                 sess.loggedIn = true;
-                
+                var value = true;
                 return response.redirect('/');
             }
         })
@@ -290,7 +309,7 @@ app.post('/removeTask', (request, response) => {
                                 if(error){
                                     return response.json({success:-1, message:'Error in Task.remove'});
                                 } else {
-                                    return response.json({success:0, message:'Task found and removed.'})
+                                    return response.json({success:1, message:'Task found and removed.'})
                                 }
                             })
                         };
@@ -304,49 +323,80 @@ app.post('/removeTask', (request, response) => {
 
 })
 
-app.get('/getUserTasks', (request, response) => {
-    var sess = request.session;
-    var email = sess.email; 
+app.get('/getTasks/todo', (request, response)=>{
+    var session = request.session;
+    const email = session.email;
 
-    console.log('In getUserTasks');
-
-    User.findOne({email:email}, function(error, user){
-        console.log("finding user...");
+    Task.find({email:email, status:0}, (error, tasks) => {
         if(error){
-            return response.json({success:-1, message: 'Server error'});
-        } else if(user == null){
-            return response.json({success:0, message:'Unable to find user'})
-        } else {
-            Task.find({email:email}, function(error, tasks){
-                if(error){
-                    return response.json({success:-1, message: 'Server error'});
-                } else if(tasks == null){
-                    return response.json({success:0, message:'No tasks found'});
-                } else {
-                    var toDo = new Array(0);
-                    var inProgress = new Array(0);
-                    var done = new Array(0);
-                    // var output = new Array(0);
-                    var content={}
-
-                    tasks.forEach(element => {
-                        if(element.status == 0){ toDo.push(element); }
-                        else if (element.status == 1){ inProgress.push(element); }
-                        else if (element.status == 2){ done.push(element); }
-                    });
-                    content['toDo']=toDo
-                    content['inProgress']=inProgress
-                    content['done']=done
-                    // output.push(toDo);
-                    // output.push(inProgress);
-                    // output.push(done);
-                    return response.json({success:1, message:'Successfully fetched users items', content:content});
-                }
-            })
-
+            return response.json({success:-1, message:'Server error'})
+        }
+        else if(tasks.length===0){
+            return response.json({success:0, message:'No tasks found'})
+        }
+        else{
+            return response.json({success: 1, message:"Found user tasks", content: {tasks: tasks}})
         }
     })
+})
 
+app.get('/getTasks/inProgress', (request, response)=>{
+    var session = request.session;
+    const email = session.email;
+
+    Task.find({email:email, status:1}, (error, tasks) => {
+        if(error){
+            return response.json({success:-1, message:'Server error'})
+        }
+        else if(tasks.length===0){
+            return response.json({success:0, message:'No tasks found'})
+        }
+        else{
+            return response.json({success: 1, message:"Found user tasks", content: {tasks: tasks}})
+        }
+    })
+})
+
+app.get('/getTasks/done', (request, response)=>{
+    var session = request.session;
+    const email = session.email;
+
+    Task.find({email:email, status:2}, (error, tasks) => {
+        if(error){
+            return response.json({success:-1, message:'Server error'})
+        }
+        else if(tasks.length===0){
+            return response.json({success:0, message:'No tasks found'})
+        }
+        else{
+            return response.json({success: 1, message:"Found user tasks", content: {tasks: tasks}})
+        }
+    })
+})
+
+app.post('/changeStatus', (request, response)=>{
+    const session = request.session;
+    const email = session.email;
+
+    const {taskID, status} = request.body
+
+    Task.findOne({_id: taskID}, (error, task)=>{
+        if(error){
+            return response.json({success:-1, message:'Error finding this task'})
+        }
+        else{
+            if(task.email!==email){
+                return response.json({success:0, message:'Not this users task'})
+            }
+            task.status=status;
+            task.save(error=>{
+                if(error){
+                    return response.json({success:0, message:'Unable to save task'})
+                }
+                return response.json({success:1, message:'Successfully updated task', content:{newTask: task}})
+            })
+        }
+    })
 })
 
 //This has to be the last one
@@ -368,7 +418,6 @@ app.listen(port, function(){
 // })
 
 function emailConfirmation(email) {
-   // email = 'thearshadalikhan@gmail.com';
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         host: 'smtp.gmail.com',
