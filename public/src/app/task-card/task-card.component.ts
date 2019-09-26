@@ -9,8 +9,7 @@ import { HttpClient } from '@angular/common/http';
 export class TaskCardComponent implements OnInit {
   @Input() taskName: string;
   @Input() description: string;
-  @Input() currentStatus: string;
-  // @Input() taskID: string
+  @Input() currentStatus: number;
   @Input() taskID: string
 
   @Output() goToTask: EventEmitter<string>;
@@ -37,6 +36,15 @@ export class TaskCardComponent implements OnInit {
         }
       })
     }
+  }
+
+  statusChanged(newValue: number){
+    this._http.post('/changeStatus', {taskID: this.taskID, status: newValue}).subscribe(data=>{
+      console.log('Received status change response:', data)
+      if(data['success']===1){
+
+      }
+    })
   }
 
 }

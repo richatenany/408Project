@@ -78,7 +78,6 @@ app.get('/register', (request, response) => {
     }
     var message = "";
     return response.render('newAcct', {message : message});
-    // return response.sendFile(path.resolve("./login/newAcct.html"));
 })
 
 app.post('/processSignup', (request, response ) => {
@@ -304,51 +303,6 @@ app.post('/removeTask', (request, response) => {
 
 })
 
-app.get('/getUserTasks', (request, response) => {
-    var sess = request.session;
-    var email = sess.email; 
-
-    console.log('In getUserTasks');
-
-    User.findOne({email:email}, function(error, user){
-        console.log("finding user...");
-        if(error){
-            return response.json({success:-1, message: 'Server error'});
-        } else if(user == null){
-            return response.json({success:0, message:'Unable to find user'})
-        } else {
-            Task.find({email:email}, function(error, tasks){
-                if(error){
-                    return response.json({success:-1, message: 'Server error'});
-                } else if(tasks == null){
-                    return response.json({success:0, message:'No tasks found'});
-                } else {
-                    var toDo = new Array(0);
-                    var inProgress = new Array(0);
-                    var done = new Array(0);
-                    // var output = new Array(0);
-                    var content={}
-
-                    tasks.forEach(element => {
-                        if(element.status == 0){ toDo.push(element); }
-                        else if (element.status == 1){ inProgress.push(element); }
-                        else if (element.status == 2){ done.push(element); }
-                    });
-                    content['toDo']=toDo
-                    content['inProgress']=inProgress
-                    content['done']=done
-                    // output.push(toDo);
-                    // output.push(inProgress);
-                    // output.push(done);
-                    return response.json({success:1, message:'Successfully fetched users items', content:content});
-                }
-            })
-
-        }
-    })
-
-})
-
 app.get('/getTasks/todo', (request, response)=>{
     var session = request.session;
     const email = session.email;
@@ -400,6 +354,31 @@ app.get('/getTasks/done', (request, response)=>{
     })
 })
 
+app.post('/changeStatus', (request, response)=>{
+    const session = request.session;
+    const email = session.email;
+
+    const {taskID, status} = request.body
+
+    Task.findOne({_id: taskID}, (error, task)=>{
+        if(error){
+            return response.json({success:-1, message:'Error finding this task'})
+        }
+        else{
+            if(task.email!==email){
+                return response.json({success:0, message:'Not this users task'})
+            }
+            task.status=status;
+            task.save(error=>{
+                if(error){
+                    return response.json({success:0, message:'Unable to save task'})
+                }
+                return response.json({success:1, message:'Successfully updated task', content:{newTask: task}})
+            })
+        }
+    })
+})
+
 //This has to be the last one
 app.all('*', (request, response, next) => {
     sess = request.session;
@@ -419,7 +398,6 @@ app.listen(8000, ()=>{
 })
 
 function emailConfirmation(email) {
-   // email = 'thearshadalikhan@gmail.com';
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         host: 'smtp.gmail.com',
