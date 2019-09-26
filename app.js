@@ -33,7 +33,7 @@ app.use(session({
 
 const NUM_SALTS = 10;
 
-mongoose.connect('mongodb://heroku_f96l5n6z:5geb2b4raf7rjeinejugpsnvkr@ds135486.mlab.com:35486/heroku_f96l5n6z', {useNewUrlParser: true, useUnifiedTopology: true}).then(() => {
+mongoose.connect('mongodb://localhost/stratify408', {useNewUrlParser: true, useUnifiedTopology: true}).then(() => {
     console.log("Connected to Database");
     }).catch((err) => {
         console.log("Not Connected to Database ERROR! ", err);
