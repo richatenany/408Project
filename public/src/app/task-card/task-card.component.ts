@@ -42,7 +42,7 @@ export class TaskCardComponent implements OnInit {
     this._http.post('/changeStatus', {taskID: this.taskID, status: newValue}).subscribe(data=>{
       console.log('Received status change response:', data)
       if(data['success']===1){
-
+        window.location.reload();
       }
     })
   }
