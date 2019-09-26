@@ -79,16 +79,19 @@ app.get('/register', (request, response) => {
     }
     var message = "";
     if(sess.ERROR1 == true) {
-        message = "Email is already in use";
+        message += "Email is already in use. ";
         sess.ERROR1 = false;
-    } else if(sess.ERROR2 == true) {
-        message = "Not a valid email.";
+    } 
+    if(sess.ERROR2 == true) {
+        message += "Not a valid email. ";
         sess.ERROR2 = false;
-    } else if(sess.ERROR3 == true) {
-        message = "Password is too long";
+    } 
+    if(sess.ERROR3 == true) {
+        message += "Password is too long. ";
         sess.ERROR3 = false;
-    } else if(sess.ERROR4 == true) {
-        message = "Passwords do not match";
+    } 
+    if(sess.ERROR4 == true) {
+        message += "Passwords do not match. ";
         sess.ERROR4 = false;
     }
 
@@ -110,7 +113,7 @@ app.post('/processSignup', (request, response ) => {
             if(user) {
                 flag = false;
                 sess.ERROR1 = true;
-                return response.redirect("/register");
+                
             }
 
         })
@@ -126,19 +129,23 @@ app.post('/processSignup', (request, response ) => {
     if(!emailRegex({exact: true}).test(request.body.email)) {
         flag = false;
         sess.ERROR2 = true;
-        return response.redirect("/register");
+        //return response.redirect("/register");
     }
     var pass = request.body.password 
     if(request.body.password.length > 20) {
         flag = false;
         sess.ERROR3 = true;
-        return response.redirect("/register");
+        //return response.redirect("/register");
     }
     if(request.body.password !== request.body.confirmPass) {
         flag = false;
-        sess.ERROR4  = 4;
-        return response.redirect("/register");
+        sess.ERROR4 = true;
+        //return response.redirect("/register");
     } 
+
+    if(flag == false) {
+        return response.redirect("/register");
+    }
     
         
     if(flag == true) {
@@ -187,7 +194,7 @@ app.post('/processLogin', (request, response) => {
                 sess = request.session;
                 sess.email = request.body.email;
                 sess.loggedIn = true;
-                
+                var value = true;
                 return response.redirect('/');
             }
         })
