@@ -2,7 +2,7 @@ import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 
 describe('AppComponent', () => {
@@ -36,5 +36,7 @@ class DashboardComponent {
   selector: 'app-header',
   template: ''
 })
-class HeaderComponent{}
+class HeaderComponent{
+  @Input() currentTab:string;
+}
 
