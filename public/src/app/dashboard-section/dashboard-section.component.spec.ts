@@ -8,7 +8,7 @@ describe('DashboardSectionComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DashboardSectionComponent ]
+      declarations: [ DashboardSectionComponent, ]
     })
     .compileComponents();
   }));
@@ -16,7 +16,6 @@ describe('DashboardSectionComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DashboardSectionComponent);
     component = fixture.componentInstance;
-    component.items=[]
     fixture.detectChanges();
     
   });
