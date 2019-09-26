@@ -21,7 +21,7 @@ app.use(session({
     secret:'StratifySecrets!!',
     resave:true,
     saveUninitialized:true,
-    cookie:{maxAge:100000}
+    cookie:{maxAge:7*24*60*60*1000}
 }))
 
 // type SUCCESS_STATE = -1 | 0 | 1;
