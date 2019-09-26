@@ -1,7 +1,10 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <div class="flex-grid-thirds">
-    <app-dashboard-section sectionName="To-Do" (switchTo)="switchListener($event)" *ngIf="!addPressed"></app-dashboard-section>
-    <app-add-task *ngIf=addPressed></app-add-task>
-    <app-dashboard-section sectionName="In-Progress"></app-dashboard-section>
-    <app-dashboard-section sectionName="Done"></app-dashboard-section>
+    <app-dashboard-section sectionName="To-Do" (switchTo)="switchListener($event)" *ngIf="!addPressed && sectionToSwitch!=0" items={{toDo}}></app-dashboard-section>
+    <app-add-task *ngIf=addPressed (switchBack)="switchBackListener($event)"></app-add-task>
+    <app-task-info *ngIf="sectionToSwitch==0"  taskID={{showingTaskID}}></app-task-info>
+    <app-dashboard-section sectionName="In-Progress" (switchTo)="switchListener($event)" *ngIf="sectionToSwitch!=1"></app-dashboard-section>
+    <app-task-info *ngIf="sectionToSwitch==1" taskID={{showingTaskID}}></app-task-info>
+    <app-dashboard-section sectionName="Done" (switchTo)="switchListener($event)" *ngIf="sectionToSwitch!=2"></app-dashboard-section>
+    <app-task-info *ngIf="sectionToSwitch==2" taskID={{showingTaskID}}></app-task-info>
 </div>

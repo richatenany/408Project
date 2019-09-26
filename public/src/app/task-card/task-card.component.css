@@ -43,6 +43,11 @@ p.taskDescription{
 select{
     font-size: 11pt;
 }
-div.dropdown {
-    /* border: 1px solid red; */
+.dropdown{
+    margin-left: 10px;
+}
+#remove{
+    float: right;
+    margin-right: 7px;
+    top: 20%;
 }
