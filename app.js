@@ -312,17 +312,21 @@ app.get('/getUserTasks', (request, response) => {
                     var toDo = new Array(0);
                     var inProgress = new Array(0);
                     var done = new Array(0);
-                    var output = new Array(0);
+                    // var output = new Array(0);
+                    var content={}
 
                     tasks.forEach(element => {
                         if(element.status == 0){ toDo.push(element); }
                         else if (element.status == 1){ inProgress.push(element); }
                         else if (element.status == 2){ done.push(element); }
                     });
-                    output.push(toDo);
-                    output.push(inProgress);
-                    output.push(done);
-                    return response.json({success:1, message:'yes', output:output});
+                    content['toDo']=toDo
+                    content['inProgress']=inProgress
+                    content['done']=done
+                    // output.push(toDo);
+                    // output.push(inProgress);
+                    // output.push(done);
+                    return response.json({success:1, message:'Successfully fetched users items', content:content});
                 }
             })
 

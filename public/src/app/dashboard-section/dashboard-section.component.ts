@@ -9,6 +9,7 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 export class DashboardSectionComponent implements OnInit {
   
   @Input() sectionName;
+  @Input() items;
   @Output() switchTo: EventEmitter<{newTab: string, section: number, taskID?: string}>;
 
   showPlus: boolean;
@@ -22,6 +23,7 @@ export class DashboardSectionComponent implements OnInit {
     if(this.sectionName === 'To-Do') {
       this.showPlus = true;
     }
+    console.log("Items:", this.items)
   }
   plusClicked(){
     this.switchTo.emit({newTab:'addTask', section:0})

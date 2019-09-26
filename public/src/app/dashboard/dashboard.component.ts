@@ -10,6 +10,10 @@ export class DashboardComponent implements OnInit {
   addPressed:boolean;
   sectionToSwitch: number;
   showingTaskID: string;
+  toDo:Object;
+  inProgress:Object
+  done:Object
+
   constructor(private _http: HttpClient) {
     this.addPressed = false;
     this.sectionToSwitch = -1;
@@ -20,8 +24,12 @@ export class DashboardComponent implements OnInit {
     this._http.get('/getUserTasks').subscribe(data=>{
       console.log("Received response:", data);
       if(data['success'] === 1) {
-        console.log(data);
-        return data;
+        this.toDo=data['content']['toDo'];
+        this.inProgress=data['content']['inProgress'];
+        this.done=data['content']['done'];
+        console.log('toDo:', this.toDo)
+        // console.log(data);
+        // return data;
       }
     })
   }
