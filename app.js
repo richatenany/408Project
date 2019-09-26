@@ -19,9 +19,9 @@ app.use(bodyParser.urlencoded({extended:true}))
 
 app.use(session({
     secret:'StratifySecrets!!',
-    resave:false,
+    resave:true,
     saveUninitialized:true,
-    cookie:{maxAge:60000}
+    cookie:{maxAge:100000}
 }))
 
 // type SUCCESS_STATE = -1 | 0 | 1;
@@ -290,7 +290,7 @@ app.post('/removeTask', (request, response) => {
                                 if(error){
                                     return response.json({success:-1, message:'Error in Task.remove'});
                                 } else {
-                                    return response.json({success:0, message:'Task found and removed.'})
+                                    return response.json({success:1, message:'Task found and removed.'})
                                 }
                             })
                         };
@@ -347,6 +347,57 @@ app.get('/getUserTasks', (request, response) => {
         }
     })
 
+})
+
+app.get('/getTasks/todo', (request, response)=>{
+    var session = request.session;
+    const email = session.email;
+
+    Task.find({email:email, status:0}, (error, tasks) => {
+        if(error){
+            return response.json({success:-1, message:'Server error'})
+        }
+        else if(tasks.length===0){
+            return response.json({success:0, message:'No tasks found'})
+        }
+        else{
+            return response.json({success: 1, message:"Found user tasks", content: {tasks: tasks}})
+        }
+    })
+})
+
+app.get('/getTasks/inProgress', (request, response)=>{
+    var session = request.session;
+    const email = session.email;
+
+    Task.find({email:email, status:1}, (error, tasks) => {
+        if(error){
+            return response.json({success:-1, message:'Server error'})
+        }
+        else if(tasks.length===0){
+            return response.json({success:0, message:'No tasks found'})
+        }
+        else{
+            return response.json({success: 1, message:"Found user tasks", content: {tasks: tasks}})
+        }
+    })
+})
+
+app.get('/getTasks/done', (request, response)=>{
+    var session = request.session;
+    const email = session.email;
+
+    Task.find({email:email, status:2}, (error, tasks) => {
+        if(error){
+            return response.json({success:-1, message:'Server error'})
+        }
+        else if(tasks.length===0){
+            return response.json({success:0, message:'No tasks found'})
+        }
+        else{
+            return response.json({success: 1, message:"Found user tasks", content: {tasks: tasks}})
+        }
+    })
 })
 
 //This has to be the last one
