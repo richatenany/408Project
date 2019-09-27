@@ -33,7 +33,7 @@ app.use(session({
 
 const NUM_SALTS = 10;
 
-mongoose.connect('mongodb://localhost/stratify408', {useNewUrlParser: true, useUnifiedTopology: true}).then(() => {
+mongoose.connect(process.env.MONGODB_URI, {useNewUrlParser: true, useUnifiedTopology: true}).then(() => {
     console.log("Connected to Database");
     }).catch((err) => {
         console.log("Not Connected to Database ERROR! ", err);
