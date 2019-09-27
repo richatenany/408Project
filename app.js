@@ -110,7 +110,12 @@ app.post('/processSignup', (request, response ) => {
     sess.ERROR3 = false;
     sess.ERROR4 = false;
 
-    User.findOne({ email : request.body.email}) 
+    var name = request.body.name;
+    var email = request.body.email;
+    var password = request.body.password;
+    var confirmPass = request.body.confirmPassword;
+
+    User.findOne({ email }) 
         .then(user => {
             if(user) {
                 flag = false;
@@ -128,18 +133,18 @@ app.post('/processSignup', (request, response ) => {
             });
         });
     
-    if(!emailRegex({exact: true}).test(request.body.email)) {
+    if(!emailRegex({exact: true}).test(email)) {
         flag = false;
         sess.ERROR2 = true;
         //return response.redirect("/register");
     }
-    var pass = request.body.password 
-    if(request.body.password.length > 20) {
+    
+    if(password.length > 20) {
         flag = false;
         sess.ERROR3 = true;
         //return response.redirect("/register");
     }
-    if(request.body.password !== request.body.confirmPass) {
+    if(password !== confirmPass) {
         flag = false;
         sess.ERROR4 = true;
         //return response.redirect("/register");
@@ -151,13 +156,13 @@ app.post('/processSignup', (request, response ) => {
     
         
     if(flag == true) {
-        bcrypt.hash(request.body.confirmPass, 10).then(hash => {
+        bcrypt.hash(confirmPass, 10).then(hash => {
         const user = new User({
-            name: request.body.name,
-            email: request.body.email,
+            name: name,
+            email: email,
             pass: hash
         });
-        emailConfirmation(request.body.email);
+        emailConfirmation(email);
         user.save()
             .then(result => {
                 return response.redirect('/login');
