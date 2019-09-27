@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "nodemon --exec 'mocha -R min'",
     "heroku-prebuild": "npm install && npm install -g @angular/cli",
     "heroku-postbuild": "cd public && npm install && npm install --only=dev && ng build --prod && cd .."
   },
