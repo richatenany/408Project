@@ -408,9 +408,9 @@ app.all('*', (request, response, next) => {
     return response.sendFile(path.resolve('./public/dist/public/index.html'))
 })
 
-var port = process.env.PORT || 8080
+var port = process.env.PORT || 3000
 app.listen(port, function(){
-    console.log("Server is listening on port 8080");
+    console.log("Server is listening on port 3000");
 });
 
 // app.listen(8000, ()=>{
