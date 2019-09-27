@@ -115,6 +115,7 @@ app.post('/processSignup', (request, response ) => {
     var password = request.body.password;
     var confirmPass = request.body.confirmPassword;
     var test;
+    console.log("HERE: ", name);
 
     User.findOne({ email }) 
         .then(user => {
@@ -122,6 +123,7 @@ app.post('/processSignup', (request, response ) => {
                 flag = false;
                 sess.ERROR1 = true;
                 if(test) {
+                    
                     return response.json(
                         {success:0, message: "Invalid"
                     })
@@ -138,8 +140,9 @@ app.post('/processSignup', (request, response ) => {
                 error:err
             });
         });
-    
+    console.log("HERE AFTER");
     if(!emailRegex({exact: true}).test(email)) {
+        
         flag = false;
         sess.ERROR2 = true;
         if(test) {
@@ -151,6 +154,7 @@ app.post('/processSignup', (request, response ) => {
     }
     
     if(password.length > 20) {
+        
         flag = false;
         sess.ERROR3 = true;
         if(test) {
@@ -160,7 +164,9 @@ app.post('/processSignup', (request, response ) => {
         }
         //return response.redirect("/register");
     }
+    
     if(password !== confirmPass) {
+        console.log("HERE AFTER3")
         flag = false;
         sess.ERROR4 = true;
         if(test) {
@@ -177,6 +183,7 @@ app.post('/processSignup', (request, response ) => {
     
         
     if(flag == true) {
+        
         bcrypt.hash(confirmPass, 10).then(hash => {
         const user = new User({
             name: name,
@@ -187,6 +194,7 @@ app.post('/processSignup', (request, response ) => {
         user.save()
             .then(result => {
                 if(test) {
+                    
                     return response.json(
                         {success:1, message: "Successful creation"
                     })

@@ -33,17 +33,18 @@ describe('Creating documents', () => {
                 "name": "Nate Venckus",
                 "email": "nateisgreat@gmail.com",
                 "password": "hellopassword",
-                "confirmPass": "hellopassword"
+                "confirmPassword": "hellopassword",
+                "test": true,
             
                 
 
 
         })
         .end((err, res) => {
-           // assert(JSON.parse(res.text).success == 1); //if user is saved to db it is not new
+           //assert(JSON.parse(res.text).success == 1); //if user is saved to db it is not new
 
-            mod.User.findOne({ email: 'Nate Venckus'}, function(error, user){
-                assert(user.email == 'Nate Venckus');
+            mod.User.findOne({ email : 'nateisgreat@gmail.com'}, function(error, user){
+                assert(user.email == 'nateisgreat@gmail.com');
                 done();
             })
         })
