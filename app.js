@@ -114,12 +114,18 @@ app.post('/processSignup', (request, response ) => {
     var email = request.body.email;
     var password = request.body.password;
     var confirmPass = request.body.confirmPassword;
+    var test;
 
     User.findOne({ email }) 
         .then(user => {
             if(user) {
                 flag = false;
                 sess.ERROR1 = true;
+                if(test) {
+                    return response.json(
+                        {success:0, message: "Invalid"
+                    })
+                }
                 
             }
 
@@ -136,17 +142,32 @@ app.post('/processSignup', (request, response ) => {
     if(!emailRegex({exact: true}).test(email)) {
         flag = false;
         sess.ERROR2 = true;
+        if(test) {
+            return response.json(
+                {success:0, message: "Invalid"
+            })
+        }
         //return response.redirect("/register");
     }
     
     if(password.length > 20) {
         flag = false;
         sess.ERROR3 = true;
+        if(test) {
+            return response.json(
+                {success:0, message: "Invalid"
+            })
+        }
         //return response.redirect("/register");
     }
     if(password !== confirmPass) {
         flag = false;
         sess.ERROR4 = true;
+        if(test) {
+            return response.json(
+                {success:0, message: "Invalid"
+            })
+        }
         //return response.redirect("/register");
     } 
 
@@ -165,6 +186,11 @@ app.post('/processSignup', (request, response ) => {
         emailConfirmation(email);
         user.save()
             .then(result => {
+                if(test) {
+                    return response.json(
+                        {success:1, message: "Successful creation"
+                    })
+                }
                 return response.redirect('/login');
             })
             .catch(err => {
