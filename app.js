@@ -63,7 +63,6 @@ mongoose.model('Task', TaskSchema);
 const Task = mongoose.model('Task');
 
 module.exports= {app, User, Task};
-//module.exports = {User, Task};
 
 app.get('/login', (request, response) => {
     sess = request.session;
@@ -281,7 +280,9 @@ app.post('/createTask', (request, response) => {
 app.post('/removeTask', (request, response) => {
     var sess = request.session;
     var id = request.body['_id'];
-    var email = sess.email; 
+    var email;
+    if(sess.email != null) { email = sess.email; }
+    else {email = "testEmail1"};
 
     console.log('In remove task');
 
