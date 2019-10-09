@@ -3,4 +3,5 @@
   <app-header currentTab={{currentTab}} (changeTab)="changeTab($event)"></app-header>
   <app-dashboard *ngIf="currentTab === 'Dashboard'"></app-dashboard>
   <app-all-tasks *ngIf="currentTab === 'Completed'"></app-all-tasks>
+  <app-stats *ngIf="currentTab === 'Stats'"></app-stats>
 </div>
