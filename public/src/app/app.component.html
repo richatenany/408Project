@@ -1,6 +1,7 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <div class='wrapper'>
-  <app-header></app-header>
-  <app-all-tasks></app-all-tasks>
+  <app-header currentTab={{currentTab}} (changeTab)="changeTab($event)"></app-header>
+  <app-dashboard *ngIf="currentTab === 'Dashboard'"></app-dashboard>
+  <app-all-tasks *ngIf="currentTab === 'Completed'"></app-all-tasks>
   
 </div>
