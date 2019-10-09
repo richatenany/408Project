@@ -11,6 +11,7 @@ import { DashboardSectionComponent } from './dashboard-section/dashboard-section
 import { TaskInfoComponent } from './task-info/task-info.component';
 import { TaskCardComponent } from './task-card/task-card.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { AllTasksComponent } from './all-tasks/all-tasks.component';
 
 
 
@@ -22,7 +23,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     DashboardSectionComponent,
     TaskInfoComponent,
     TaskCardComponent,
-    DashboardComponent
+    DashboardComponent,
+    AllTasksComponent
   ],
   imports: [
     BrowserModule,
