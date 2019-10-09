@@ -369,9 +369,10 @@ app.get('/getTasks/done', (request, response)=>{
             return response.json({success:0, message:'No tasks found'})
         }
         else{
+
             return response.json({success: 1, message:"Found user tasks", content: {tasks: tasks}})
         }
-    })
+    }).sort({dateCompleted:1}).limit(12);
 })
 
 app.post('/changeStatus', (request, response)=>{
@@ -389,6 +390,10 @@ app.post('/changeStatus', (request, response)=>{
                 return response.json({success:0, message:'Not this users task'})
             }
             task.status=status;
+            if (status == 2) { 
+                task.dateCompleted = Date.now(); 
+                console.log(task.dateCompleted);
+            }
             task.save(error=>{
                 if(error){
                     return response.json({success:0, message:'Unable to save task'})
