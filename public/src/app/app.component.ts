@@ -14,6 +14,10 @@ export class AppComponent implements OnInit{
   }
 
   ngOnInit(){
-
+    console.log("Current Tab:", this.currentTab)
+  }
+  changeTab(newTab:string) {
+    console.log("New Tab:", newTab)
+    this.currentTab = newTab
   }
 }
