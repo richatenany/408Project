@@ -392,6 +392,22 @@ app.get('/getTasks/all_done', (request, response)=>{
     })
 })
 
+app.get('/getTask', (request, response)=>{
+    var id = request._id;
+
+    Task.find({_id:id}, (error, tasks) => {
+        if(error){
+            return response.json({success:-1, message:'Server error'})
+        }
+        else if(tasks.length===0){
+            return response.json({success:0, message:'No tasks found'})
+        }
+        else{
+            return response.json({success: 1, message:"Found user task", content: {task: task}})
+        }
+    })
+})
+
 app.post('/changeStatus', (request, response)=>{
     const session = request.session;
     const email = session.email;
