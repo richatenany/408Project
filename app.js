@@ -436,6 +436,31 @@ app.post('/changeStatus', (request, response)=>{
     })
 })
 
+app.post('/addComment', (request, response)=> {
+    const session = request.session;
+    const email = session.email;
+
+    const {taskID, comment} = request.body
+
+    Task.findOne({_id: taskID}, (error, task)=>{
+        if(error){
+            return response.json({success:-1, message:'Error finding this task'})
+        }
+        else{
+            if(task.email!==email){
+                return response.json({success:0, message:'Not this users task'})
+            }
+            task.comments[task.comments.length] = comment;
+            task.save(error=>{
+                if(error){
+                    return response.json({success:0, message:'Unable to save task'})
+                }
+                return response.json({success:1, message:'Successfully updated task', content:{newTask: task}})
+            })
+        }
+    })
+})
+
 //This has to be the last one
 app.all('*', (request, response, next) => {
     sess = request.session;
