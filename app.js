@@ -375,6 +375,23 @@ app.get('/getTasks/done', (request, response)=>{
     }).sort({dateCompleted:1}).limit(12);
 })
 
+app.get('/getTasks/all_done', (request, response)=>{
+    var session = request.session;
+    const email = session.email;
+
+    Task.find({email:email, status:2}, (error, tasks) => {
+        if(error){
+            return response.json({success:-1, message:'Server error'})
+        }
+        else if(tasks.length===0){
+            return response.json({success:0, message:'No tasks found'})
+        }
+        else{
+            return response.json({success: 1, message:"Found user tasks", content: {tasks: tasks}})
+        }
+    })
+})
+
 app.post('/changeStatus', (request, response)=>{
     const session = request.session;
     const email = session.email;
