@@ -218,7 +218,7 @@ app.get('/processLogout', (request, response) => {
 
 app.post('/createTask', (request, response) => {
     var title = request.body['title'];
-    var deadLine = request.body['deadLine'];
+    var deadLine = request.body['date'];
     var desc = request.body['desc'];
     var weight = request.body['weight'];
     var category = request.body['category'];
@@ -335,7 +335,7 @@ app.get('/getTasks/todo', (request, response)=>{
             return response.json({success:0, message:'No tasks found'})
         }
         else{
-            return response.json({success: 1, message:"Found user tasks", content: {tasks: tasks}})
+            return response.json({success: 1, message:"Found user tasks", content: {tasks: setUrgencyBadges(tasks)}})
         }
     })
 })
@@ -352,7 +352,7 @@ app.get('/getTasks/inProgress', (request, response)=>{
             return response.json({success:0, message:'No tasks found'})
         }
         else{
-            return response.json({success: 1, message:"Found user tasks", content: {tasks: tasks}})
+            return response.json({success: 1, message:"Found user tasks", content: {tasks: setUrgencyBadges(tasks)}})
         }
     })
 })
@@ -369,8 +369,7 @@ app.get('/getTasks/done', (request, response)=>{
             return response.json({success:0, message:'No tasks found'})
         }
         else{
-
-            return response.json({success: 1, message:"Found user tasks", content: {tasks: tasks}})
+            return response.json({success: 1, message:"Found user tasks", content: {tasks: setUrgencyBadges(tasks)}})
         }
     }).sort({dateCompleted:1}).limit(12);
 })
@@ -387,7 +386,7 @@ app.get('/getTasks/all_done', (request, response)=>{
             return response.json({success:0, message:'No tasks found'})
         }
         else{
-            return response.json({success: 1, message:"Found user tasks", content: {tasks: tasks}})
+            return response.json({success: 1, message:"Found user tasks", content: {tasks: setUrgencyBadges(tasks)}})
         }
     })
 })
@@ -403,7 +402,7 @@ app.get('/getTask', (request, response)=>{
             return response.json({success:0, message:'No tasks found'})
         }
         else{
-            return response.json({success: 1, message:"Found user task", content: {task: task}})
+            return response.json({success: 1, message:"Found user task", content: {task: setUrgencyBadges(tasks)}})
         }
     })
 })
@@ -478,4 +477,25 @@ function emailConfirmation(email) {
         else
           console.log(info);
      });
-} 
+}
+
+function setUrgencyBadges(tasksFromDb) {
+    var tasks = JSON.parse(JSON.stringify(tasksFromDb));
+    var i = 0;
+    tasks.forEach(task => {
+        var remainingTime = Date.parse(task.deadLine) - Date.now()
+        if(remainingTime < 0) {
+            //remaining time is negative, object is past due
+            task.urgency = "Late";
+        } else if (remainingTime < Date.parse('02 Jan 1970 00:00:00 GMT')) {
+            task.urgency = "1Day";
+        } else if (remainingTime < Date.parse('03 Jan 1970 00:00:00 GMT')) {
+            task.urgency = "2Day";
+        } else {
+            task.urgency = "Low";
+        }
+        i++;        
+    });
+    console.log(tasks);
+    return tasks;
+}
