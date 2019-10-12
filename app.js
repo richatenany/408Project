@@ -43,7 +43,9 @@ const UserSchema = new mongoose.Schema({
     name: {type:String, required:[true, "Name is required for User."], minlength: 2},
     email: {type:String, required:[true, "Email is required for User."]},
     pass: {type:String, required:[true, "Password is required for User."]},
-    taskIDs: {type:[String]}
+    taskIDs: {type:[String]},
+    resetPasstoken: String,
+    resetPassDate: Date
 }, {timestamps: true});
 mongoose.model('User', UserSchema);
 const User = mongoose.model('User');
@@ -169,6 +171,64 @@ app.post('/processSignup', (request, response ) => {
     });
     }   
 });
+
+app.post('/forgotPass', (request, response) => {
+    var email = request.body.email;
+      User.findOne( {email : email})
+        .then(user => {
+            if(user) {
+                var token = '1234567';
+                user.resetPasstoken = token;
+                user.resetPassDate = Date.now() + 3600000;
+                var transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    host: 'smtp.gmail.com',
+                    port: 587,
+                    secure: false,
+                    auth: {
+                           user: 'theofficialstratify@gmail.com',
+                           pass: 'Stratify4082019'
+                       }
+                });
+                const mailOptions2 = {
+                    from: 'theofficialstratify@gmail.com', // sender address
+                    to: email, // list of receivers
+                    subject: 'Request to change password', // Subject line
+                    text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+                    'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+                    'http://localhost:8000/newPass/' + token + '\n\n' +
+                    'If you did not request this, please ignore this email and your password will remain unchanged.\n'
+                };
+                transporter.sendMail(mailOptions2, function (err, info) {
+                    if(err)
+                      console.log(err)
+                    else
+                      console.log(info);
+                 });
+
+            }
+        }) 
+    return response.redirect('checkEmail.html');
+});
+
+/* app.get('/newPass/:token', (req, res) => {
+    User.findOne({ resetPasstoken: req.params.token, resetPasswordDate: { $gt: Date.now() } }, function(err, user) {
+        if (!user) {
+          req.flash('error', 'Password reset token is invalid or has expired.');
+          return res.redirect('/forgotPass');
+        }
+        res.render('newPass.ejs', {
+            user: req.user
+        });
+    });
+        
+});
+
+app.post('/newPass', (req, res) => {
+    User.findOne(req.user);
+    if(user)
+}); */
+
 
 app.post('/processLogin', (request, response) => {
   
