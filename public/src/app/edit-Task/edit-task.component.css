@@ -1,0 +1,48 @@
+
+#titleInput{
+    padding: 8px;
+    margin-left: 10px;
+    border-radius: 5px;
+    width: 90%;
+    margin-top: 10px;
+    font-size: 20px;
+    background-color: transparent;
+    color: white;
+    border: none;
+}
+.card{
+    width: 98%;
+    /* height: 500px; */
+    background-color:rgb(207, 223, 245);
+    opacity: .8;
+    opacity: .6;
+    border-radius: 3px;
+    margin-left: 8px;
+    margin-top: 8px;
+    padding-bottom: 20px;
+}
+.card_header{
+    width: 100%;
+    background-color: #00287D;
+    padding: 5px 10px;
+    color: white;
+}
+.style{
+    margin-left: 10px;
+}
+#btn1{
+    border-radius: 4px;
+    background-color: white;
+    margin-left: 10px;
+    max-width: 100%;
+}
+#btn2{
+    float: right;
+    margin-right: 10px;
+    border-radius: 4px;
+    background-color: white;
+}
+.inputStyle{
+    margin-left: 10px;
+    width: 90%;
+}

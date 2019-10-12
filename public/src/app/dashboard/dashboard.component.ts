@@ -26,6 +26,14 @@ export class DashboardComponent implements OnInit {
       this.addPressed = true;
       return;
     }
+    //added tings
+    if( newTab === "editTask" && section === 0){
+      this.addPressed = true;
+    //  this.showingTaskID = info.taskID;
+    //  this.sectionToSwitch = section;
+    }
+
+
     if(newTab === 'taskInfo' && info.taskID) {
       this.showingTaskID = info.taskID;
       this.sectionToSwitch = section;

@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, Input } from '@angular/core';
 import { DashboardComponent } from './dashboard.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { EditTaskComponent } from '../edit-Task/edit-task.component';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
@@ -15,6 +16,8 @@ describe('DashboardComponent', () => {
       declarations: [ DashboardComponent,
       DashboardSectionComponent,
       AddTaskComponent,
+      //added Edit
+      EditTaskComponent,
       TaskInfoComponent
     ]
     })
@@ -38,6 +41,12 @@ describe('DashboardComponent', () => {
 class DashboardSectionComponent{}
 @Component({
   selector: 'app-add-task',
+  template: ''
+})
+//added
+class EditTaskComponent {}
+@Component({
+  selector: 'app-edit-task',
   template: ''
 })
 class AddTaskComponent{}
