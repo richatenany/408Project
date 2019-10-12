@@ -14,11 +14,11 @@ div.card a *{
     text-decoration: none;
 }
 p.taskName{
-    font-size: 12pt;
+    font-size: 16pt;
     margin: 0px;
 }
 p.taskDescription{
-    font-size: 11pt;
+    font-size: 14pt;
     margin: 0px;
 }
 .card_header{
@@ -45,9 +45,29 @@ select{
 }
 .dropdown{
     margin-left: 10px;
+    font-size: 14px;
 }
 #remove{
     float: right;
-    margin-right: 7px;
-    top: 20%;
+    margin-right: 10px;
+    top: -13%;
+}
+#date{
+    font-size: 18px;
+    margin-top: 4px;
+}
+#weight{
+    float: right;
+    display: inline-block;
+    margin-right: 50px;
+    font-size: 18px;
+    margin-top: 4px;
+
+}
+#edit{
+    float: right;
+    display: inline-block;
+    font-size: 14px;
+    cursor: pointer;
+    font-style: italic;
 }

@@ -9,9 +9,14 @@
         </div>
     </a>
     <div class="card_info">
+        <p id="edit"> Edit </p>
         <p class='taskDescription'>{{description}}</p>
+        <p id='weight'> Weight:{{weight}}</p>
+        <p id="date"> Due:  </p>
+       
+
     </div>
-    <div class="dropdown">
+    <div id="progress" class="dropdown">
         <select (change)="statusChanged(t.value)" #t>
             <option *ngIf="currentStatus==0" selected value=0>To-Do</option>
             <option *ngIf="currentStatus!=0" value=0 >To-Do</option>
