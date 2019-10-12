@@ -450,7 +450,8 @@ app.post('/addComment', (request, response)=> {
             if(task.email!==email){
                 return response.json({success:0, message:'Not this users task'})
             }
-            task.comments[task.comments.length] = comment;
+//             task.comments[task.comments.length] = comment;
+            task.comments.push(comment);
             task.save(error=>{
                 if(error){
                     return response.json({success:0, message:'Unable to save task'})
