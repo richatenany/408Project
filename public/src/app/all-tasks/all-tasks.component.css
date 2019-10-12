@@ -1,0 +1,7 @@
+.tasks{
+    overflow-y: auto;
+}
+#list{
+    padding: 5px;
+    transition: margin-left .5s;
+}
