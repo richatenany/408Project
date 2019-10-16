@@ -44,6 +44,7 @@ describe('TaskCardComponent', () => {
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('p.taskName').textContent).toContain("This is my task");
     expect(compiled.querySelector('p.taskDescription').textContent).toContain("This is the description");
+    
   })
 
   it('should show call the remove function', () => {
