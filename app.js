@@ -83,7 +83,7 @@ app.get('/register', (request, response) => {
         sess.ERROR1 = false;
     } 
     if(sess.ERROR2 == true) {
-        message += "Not a valid email. ";
+        message += "Please enter a valid email address. ";
         sess.ERROR2 = false;
     } 
     if(sess.ERROR3 == true) {
@@ -91,8 +91,13 @@ app.get('/register', (request, response) => {
         sess.ERROR3 = false;
     } 
     if(sess.ERROR4 == true) {
-        message += "Passwords do not match. ";
+        message += "Please make sure your passwords match. ";
         sess.ERROR4 = false;
+    }
+    else if(sess.ERROR2 == true && sess.ERROR4 == true){
+        message += "Please enter a valid email address and ensure your passwords match."
+        sess.ERROR2 = false;
+        sess.error4 = false;
     }
 
     return response.render('newAcct', {message : message});
