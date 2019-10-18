@@ -11,7 +11,7 @@ export class TaskCardComponent implements OnInit {
   @Input() description: string;
   @Input() currentStatus: number;
   @Input() taskID: string
-
+  @Input() category: string;
   @Output() goToTask: EventEmitter<string>;
   @Output() removeTask: EventEmitter<string>;
 
@@ -21,6 +21,7 @@ export class TaskCardComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log("**" + this.category);
   }
 
   taskClicked(){
@@ -48,3 +49,4 @@ export class TaskCardComponent implements OnInit {
   }
 
 }
+
