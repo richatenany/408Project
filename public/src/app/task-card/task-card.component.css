@@ -68,6 +68,20 @@ select{
     margin-right: 10px;
     top: -13%;
 }
+#warning{
+    float: right;
+    color: red;
+    margin-top: -25px;
+    margin-right: 50px;
+    font-size: 25px;
+}
+#warning2{
+    float: right;
+    color: rgb(255, 208, 0);
+    margin-top: -25px;
+    margin-right: 50px;
+    font-size: 25px;
+}
 #date{
     font-size: 18px;
     margin-top: 4px;
