@@ -62,6 +62,9 @@ const TaskSchema = new mongoose.Schema({
 mongoose.model('Task', TaskSchema);
 const Task = mongoose.model('Task');
 
+module.exports= {app, User, Task};
+//module.exports = {User, Task};
+
 app.get('/login', (request, response) => {
     sess = request.session;
     if(sess.loggedIn !== undefined && sess.loggedIn === true){
@@ -112,11 +115,24 @@ app.post('/processSignup', (request, response ) => {
     sess.ERROR3 = false;
     sess.ERROR4 = false;
 
-    User.findOne({ email : request.body.email}) 
+    var name = request.body.name;
+    var email = request.body.email;
+    var password = request.body.password;
+    var confirmPass = request.body.confirmPassword;
+    var test;
+    console.log("HERE: ", name);
+
+    User.findOne({ email }) 
         .then(user => {
             if(user) {
                 flag = false;
                 sess.ERROR1 = true;
+                if(test) {
+                    
+                    return response.json(
+                        {success:0, message: "Invalid"
+                    })
+                }
                 
             }
 
@@ -129,21 +145,40 @@ app.post('/processSignup', (request, response ) => {
                 error:err
             });
         });
-    
-    if(!emailRegex({exact: true}).test(request.body.email)) {
+    console.log("HERE AFTER");
+    if(!emailRegex({exact: true}).test(email)) {
+        
         flag = false;
         sess.ERROR2 = true;
+        if(test) {
+            return response.json(
+                {success:0, message: "Invalid"
+            })
+        }
         //return response.redirect("/register");
     }
-    var pass = request.body.password 
-    if(request.body.password.length > 20) {
+    
+    if(password.length > 20) {
+        
         flag = false;
         sess.ERROR3 = true;
+        if(test) {
+            return response.json(
+                {success:0, message: "Invalid"
+            })
+        }
         //return response.redirect("/register");
     }
-    if(request.body.password !== request.body.confirmPass) {
+    
+    if(password !== confirmPass) {
+        console.log("HERE AFTER3")
         flag = false;
         sess.ERROR4 = true;
+        if(test) {
+            return response.json(
+                {success:0, message: "Invalid"
+            })
+        }
         //return response.redirect("/register");
     } 
 
@@ -153,15 +188,22 @@ app.post('/processSignup', (request, response ) => {
     
         
     if(flag == true) {
-        bcrypt.hash(request.body.confirmPass, 10).then(hash => {
+        
+        bcrypt.hash(confirmPass, 10).then(hash => {
         const user = new User({
-            name: request.body.name,
-            email: request.body.email,
+            name: name,
+            email: email,
             pass: hash
         });
-        emailConfirmation(request.body.email);
+        emailConfirmation(email);
         user.save()
             .then(result => {
+                if(test) {
+                    
+                    return response.json(
+                        {success:1, message: "Successful creation"
+                    })
+                }
                 return response.redirect('/login');
             })
             .catch(err => {
@@ -228,7 +270,9 @@ app.post('/createTask', (request, response) => {
     var weight = request.body['weight'];
     var category = request.body['category'];
     var sess = request.session;
-    var email = sess.email;
+    var email;
+    if(sess.email != null) { email = sess.email; }
+    else {email = "testEmail1"};
     var status = 0;
 
     console.log("in create task \n");
