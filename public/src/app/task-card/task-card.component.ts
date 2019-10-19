@@ -11,6 +11,11 @@ export class TaskCardComponent implements OnInit {
   @Input() description: string;
   @Input() currentStatus: number;
   @Input() taskID: string
+  @Input() category: string;
+
+  //added
+  @Input() weight: number;
+  @Input() date: string;
 
   @Output() goToTask: EventEmitter<string>;
   @Output() removeTask: EventEmitter<string>;
@@ -18,9 +23,11 @@ export class TaskCardComponent implements OnInit {
   constructor(private _http: HttpClient) { 
     this.goToTask = new EventEmitter<string>();
     this.removeTask =  new EventEmitter<string>();
+    
   }
 
   ngOnInit() {
+    this.date = this.date.substring(0,10);
   }
 
   taskClicked(){
@@ -48,3 +55,4 @@ export class TaskCardComponent implements OnInit {
   }
 
 }
+
