@@ -229,7 +229,7 @@ app.post('/forgotPass', (request, response) => {
                     subject: 'Request to change password', // Subject line
                     text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
                     'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-                    'http://localhost:8000/newPass/' + token + '\n\n' +
+                    'http://localhost:8000/newPass/'+ token + '\n\n' +
                     'If you did not request this, please ignore this email and your password will remain unchanged.\n'
                 };
                 transporter.sendMail(mailOptions2, function (err, info) {
@@ -245,24 +245,38 @@ app.post('/forgotPass', (request, response) => {
 })
 
 app.get('/newPass/:token', (req, res) => {
-    console.log("IN TOKEN: ", req.params.token);
-    User.findOne({ resetPasstoken: req.params.token })
+
+    session = req.session;
+    session.hasToken = true;
+    session.TOKEN = req.params.token;
+    return res.redirect('/newPass');
+    
+})    
+
+app.get('/newPass', (req,res) => {
+    
+    if(session.hasToken) {
+    User.findOne({ resetPasstoken: session.TOKEN, resetPassDate: { $gt: Date.now() } })
         .then(user => {
+
                 console.log("HELLOUSER");
+                console.log(user)
                 if (!user) {
                     console.log("HELLOUSER2");
                     message = "";
-                    res.render('newAcct', { message : message});
+                    return res.render('newAcct', { message : message});
                 } else {
                     console.log("USER IS HERE: " , user);
                     message = "";
-                    res.render('newPass', {message : message, 
+                    return res.render('newPass', {message : message, 
                     email : user.email
                     });
                 }
             
     })
-})    
+  }
+    
+});
 
 app.post('/newPass', (req, res) => {
     var pass = (req.body.password);
@@ -288,6 +302,7 @@ app.post('/newPass', (req, res) => {
                     
                     console.log("EMAIL: ", user.email);
                     user.pass = hash;
+                    user.resetPassDate = Date.now();
                     user.save()
                     .then(result => {
                     console.log("SUCCESS CHANGED");

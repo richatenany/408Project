@@ -7,14 +7,15 @@
     <link rel="stylesheet"  href="newPass.css" />
     <link rel="stylesheet"  href="container.css" />
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-
+    
+    </style>
 </head>
 <body class="color">
     <center>
         <div id="wrapper">
             <div class="container">
                     <!-- <h id="title"> STRATIFY </h> -->
-                    <a href="login.html" id="arrow"> &#8592</h></a><br>
+                    <a href="/login" id="arrow"> &#8592</h></a><br>
                     <p id="title">STRATIFY</p>
                     <form action='/newPass' method='post'>
                         <%if (message.length > 0) { %>
@@ -23,8 +24,8 @@
                         <%if (email.length > 0) { %>
                             <input id="creds" type="hidden" value="<%= email %>"  name="email">
                         <% } %>
-                        <input id="creds" type="password" placeholder="Enter New Password" name="password"><br>
-                        <input id="creds" type="password" placeholder="Confirm New Password" name="confirmPass">
+                        <input id="creds" type="password" placeholder="Enter New Password" name="password" required><br>
+                        <input id="creds" type="password" placeholder="Confirm New Password" name="confirmPass" required>
                         <div id='buttonDiv'>
                             <input id="confirmBtn" type="submit" value="Confirm"></a>
                     </div>
