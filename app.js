@@ -4,6 +4,8 @@ const path = require('path')
 const bodyParser=require('body-parser')
 const mongoose=require('mongoose')
 var session=require('express-session')
+//var async = require('async');
+var crypto = require('crypto');
 const bcrypt=require('bcrypt')
 const nodemailer = require('nodemailer');
 const emailRegex = require('email-regex');
@@ -43,7 +45,9 @@ const UserSchema = new mongoose.Schema({
     name: {type:String, required:[true, "Name is required for User."], minlength: 2},
     email: {type:String, required:[true, "Email is required for User."]},
     pass: {type:String, required:[true, "Password is required for User."]},
-    taskIDs: {type:[String]}
+    taskIDs: {type:[String]},
+    resetPasstoken: String,
+    resetPassDate: Date,
 }, {timestamps: true});
 mongoose.model('User', UserSchema);
 const User = mongoose.model('User');
@@ -174,6 +178,156 @@ app.post('/processSignup', (request, response ) => {
     });
     }   
 });
+app.get('/forgot', (request, response) => {
+    response.render('forgotPass');
+});
+app.post('/forgotPass', (request, response) => {
+    var email = request.body.email;
+    /*async.waterfall([
+        function(done) {
+          crypto.randomBytes(20, function(err, buf) {
+            var token = buf.toString('hex');
+            done(err, token);
+          });
+    }, */
+    var token = "";
+    require('crypto').randomBytes(48, function(err, buffer) {
+        token = buffer.toString('hex');
+    });
+     User.findOne( {email : email})
+        .then(user => {
+            if(user) {
+                //var token = 'a;sldkjfas;ld';
+                console.log(user.email);
+                user.resetPasstoken = token;
+                user.resetPassDate = Date.now() + 360000;
+                console.log(user.resetPasstoken);
+                user.save()
+                .then(result => {
+                    console.log("SUCCESS CHANGED");
+                })
+                .catch(err => {
+                    console.log("ERROR");
+                    response.status(500).json({
+                        success: -1,
+                        error:err
+                    });
+                 });
+                var transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    host: 'smtp.gmail.com',
+                    port: 587,
+                    secure: false,
+                    auth: {
+                           user: 'theofficialstratify@gmail.com',
+                           pass: 'Stratify4082019'
+                       }
+                });
+                const mailOptions2 = {
+                    from: 'theofficialstratify@gmail.com', // sender address
+                    to: email, // list of receivers
+                    subject: 'Request to change password', // Subject line
+                    text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+                    'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+                    'http://localhost:8000/newPass/' + token + '\n\n' +
+                    'If you did not request this, please ignore this email and your password will remain unchanged.\n'
+                };
+                transporter.sendMail(mailOptions2, function (err, info) {
+                    if(err)
+                      console.log(err)
+                    else
+                      console.log(info);
+                 });
+
+            }
+        })
+        response.redirect('checkEmail.html');
+})
+
+app.get('/newPass/:token', (req, res) => {
+    console.log("IN TOKEN: ", req.params.token);
+    User.findOne({ resetPasstoken: req.params.token })
+        .then(user => {
+                console.log("HELLOUSER");
+                if (!user) {
+                    console.log("HELLOUSER2");
+                    message = "";
+                    res.render('newAcct', { message : message});
+                } else {
+                    console.log("USER IS HERE: " , user);
+                    message = "";
+                    res.render('newPass', {message : message, 
+                    email : user.email
+                    });
+                }
+            
+    })
+})    
+
+app.post('/newPass', (req, res) => {
+    var pass = (req.body.password);
+    var confirmPass = (req.body.confirmPass);
+    var email = (req.body.email);
+
+    var flag = true;
+    sess = req.session;
+
+    sess.ERROR5 = false;
+    sess.email = email;
+    if(pass != confirmPass) {
+        //sess.ERROR5 = true;
+        //sess.email = email;
+        console.log("IN HERE");
+        message = "Passwords do not match";
+        res.render('newPass', {message : message, email : email});
+    } else {
+       User.findOne({ email : req.body.email}) 
+        .then(user => {
+            if(user) {
+                bcrypt.hash(req.body.confirmPass, 10).then(hash => {
+                    
+                    console.log("EMAIL: ", user.email);
+                    user.pass = hash;
+                    user.save()
+                    .then(result => {
+                    console.log("SUCCESS CHANGED");
+                }).catch(err => {
+                        console.log("ERROR");
+                        res.status(500).json({
+                        success: -1,
+                        error:err
+                    });
+                    });
+                });
+
+            }
+            res.redirect('/login');
+
+        })
+        .catch(err => {
+            flag = false;
+            console.log("ERROR");
+            res.status(500).json({
+                success: -1,
+                error:err
+            });
+            
+        });
+    }
+     
+})
+
+app.get('/newPass2', (req, res) => {
+    if(sess.ERROR5) {
+        message = "Passwords do not match try again.";
+        email = sess.email;
+    } else {
+        message = "";
+        email = "";
+    }
+    return res.render('newPass', {message : message, email : email});
+})
+
 
 app.post('/processLogin', (request, response) => {
   
@@ -208,8 +362,8 @@ app.post('/processLogin', (request, response) => {
                 success: -1,
                 message: "Log In Failed"
             });
-        });
-});
+        })
+})
 
 app.get('/processLogout', (request, response) => {
     request.session.destroy((err) => {
@@ -218,8 +372,8 @@ app.get('/processLogout', (request, response) => {
         } else {
             return response.redirect('/login');
         }
-    });
-});
+    })
+})
 
 app.post('/createTask', (request, response) => {
     var title = request.body['title'];
