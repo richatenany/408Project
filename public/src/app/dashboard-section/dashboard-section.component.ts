@@ -32,6 +32,7 @@ export class DashboardSectionComponent implements OnInit {
     else{
       this.fetchDone();
     }
+  
   }
   plusClicked(){
     this.switchTo.emit({newTab:'addTask', section:0})

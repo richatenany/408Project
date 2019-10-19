@@ -5,10 +5,14 @@ padding: 20px;
     margin-top: 10px;
     width: 100%;
     height: 150px;
-    background-color:rgb(207, 223, 245);
+    background-color:rgb(245, 245, 245);
     opacity: .8;
     opacity: .6;
     border-radius: 3px;
+    border-style: groove;
+    border-color: black;
+    border-width: thin;
+    box-shadow: rgb(160, 158, 158) 1px 1px 1px 1px;
 }
 div.card a *{
     text-decoration: none;
@@ -21,9 +25,21 @@ p.taskDescription{
     font-size: 14pt;
     margin: 0px;
 }
-.card_header{
+.card_header_health{
     width: 100%;
-    background-color: #00287D;
+    background-color: #066C25;
+    padding: 5px 10px;
+    color: white;
+}
+.card_header_work{
+    width: 100%;
+    background-color: rgb(62, 0, 87);
+    padding: 5px 10px;
+    color: white;
+}
+.card_header_social{
+    width: 100%;
+    background-color: rgb(247, 128, 18);
     padding: 5px 10px;
     color: white;
 }
@@ -51,6 +67,20 @@ select{
     float: right;
     margin-right: 10px;
     top: -13%;
+}
+#warning{
+    float: right;
+    color: red;
+    margin-top: -25px;
+    margin-right: 50px;
+    font-size: 25px;
+}
+#warning2{
+    float: right;
+    color: rgb(255, 208, 0);
+    margin-top: -25px;
+    margin-right: 50px;
+    font-size: 25px;
 }
 #date{
     font-size: 18px;
