@@ -17,12 +17,20 @@
                     <a href="login.html" id="arrow"> &#8592</h></a><br>
                     <p id="title">STRATIFY</p>
                     <form action='/newPass' method='post'>
+                        <%if (message.length > 0) { %>
+                            <%= message %>
+                        <% } %>
+                        <%if (email.length > 0) { %>
+                            <input id="creds" type="hidden" value="<%= email %>"  name="email">
+                        <% } %>
                         <input id="creds" type="password" placeholder="Enter New Password" name="password"><br>
                         <input id="creds" type="password" placeholder="Confirm New Password" name="confirmPass">
-                    </form>
-                    <div id='buttonDiv'>
-                            <a href= "login.html"><input id="confirmBtn" type="submit" value="Confirm"></a>
+                        <div id='buttonDiv'>
+                            <input id="confirmBtn" type="submit" value="Confirm"></a>
                     </div>
+
+                    </form>
+                    
                    
                     
             </div>
