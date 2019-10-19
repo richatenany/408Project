@@ -71,6 +71,22 @@ app.get('/login', (request, response) => {
     return response.render('login', {message : message});
 })
 
+app.get('/dashboard', (request, response) => {
+    sess = request.session;
+    if(sess.loggedIn === undefined || sess.loggedIn === false) {
+        return response.redirect('/login');
+    }
+    return response.sendFile(path.resolve('./public/dist/public/index.html'))
+})
+
+app.get('/isLoggedIn', (request, response) => {
+    sess = request.session;
+    if(sess.loggedIn === undefined || sess.loggedIn === false) {
+        return response.json({loggedIn: false});
+    }
+    return response.json({loggedIn: true});
+})
+
 app.get('/register', (request, response) => {
     sess = request.session;
     
@@ -469,6 +485,7 @@ app.post('/addComment', (request, response)=> {
 
 //This has to be the last one
 app.all('*', (request, response, next) => {
+    console.log('Calling the * route');
     sess = request.session;
     if(sess.loggedIn === undefined || sess.loggedIn === false) {
         return response.redirect('/login');
