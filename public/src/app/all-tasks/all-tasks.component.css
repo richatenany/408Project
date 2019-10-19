@@ -5,3 +5,28 @@
     padding: 5px;
     transition: margin-left .5s;
 }
+li div{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+li div p{
+    display: inline-block;
+    margin: 0;
+}
+tr td a{
+    color: blue
+}
+tr td a:hover{
+    color: blue;
+    cursor: pointer;
+}
+div.right{
+    width: 400px;
+}
+div.left{
+    flex: 1;
+}
+div.tasks{
+    display:flex;
+}
