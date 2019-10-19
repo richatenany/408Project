@@ -4,6 +4,7 @@ const path = require('path')
 const bodyParser=require('body-parser')
 const mongoose=require('mongoose')
 var session=require('express-session')
+var async = require('async');
 const bcrypt=require('bcrypt')
 const nodemailer = require('nodemailer');
 const emailRegex = require('email-regex');
@@ -174,10 +175,17 @@ app.post('/processSignup', (request, response ) => {
 
 app.post('/forgotPass', (request, response) => {
     var email = request.body.email;
-      User.findOne( {email : email})
+    async.waterfall([
+        function(done) {
+          crypto.randomBytes(20, function(err, buf) {
+            var token = buf.toString('hex');
+            done(err, token);
+          });
+    },
+     User.findOne( {email : email})
         .then(user => {
             if(user) {
-                var token = '1234567';
+                
                 user.resetPasstoken = token;
                 user.resetPassDate = Date.now() + 3600000;
                 var transporter = nodemailer.createTransport({
@@ -207,11 +215,14 @@ app.post('/forgotPass', (request, response) => {
                  });
 
             }
-        }) 
-    return response.redirect('checkEmail.html');
+        })
+    ]);
 });
+    
 
-/* app.get('/newPass/:token', (req, res) => {
+
+
+app.get('/newPass/:token', (req, res) => {
     User.findOne({ resetPasstoken: req.params.token, resetPasswordDate: { $gt: Date.now() } }, function(err, user) {
         if (!user) {
           req.flash('error', 'Password reset token is invalid or has expired.');
@@ -220,14 +231,14 @@ app.post('/forgotPass', (request, response) => {
         res.render('newPass.ejs', {
             user: req.user
         });
-    });
-        
-});
+    });        
 
 app.post('/newPass', (req, res) => {
     User.findOne(req.user);
-    if(user)
-}); */
+    if(user) {
+
+    }
+}); 
 
 
 app.post('/processLogin', (request, response) => {
