@@ -73,7 +73,7 @@ app.get('/login', (request, response) => {
     }
     var message = "";
     return response.render('login', {message : message});
-})
+});
 
 app.get('/register', (request, response) => {
     sess = request.session;
@@ -621,8 +621,18 @@ app.post('/addComment', (request, response)=> {
     })
 })
 
+
+app.get('/isLoggedIn', (request, response) => {
+    sess = request.session;
+    if(sess.loggedIn === undefined || sess.loggedIn === false) {
+        return response.json({loggedIn: false});
+    }
+    return response.json({loggedIn: true});
+})
+
 //This has to be the last one
 app.all('*', (request, response, next) => {
+    console.log('Calling the * route');
     sess = request.session;
     if(sess.loggedIn === undefined || sess.loggedIn === false) {
         return response.redirect('/login');
