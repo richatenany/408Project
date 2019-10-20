@@ -3,7 +3,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 <div class="card">
-    <a href='#' (click)="taskClicked()">
+    <a (click)="taskClicked()">
         <!-- <div class="card_header_health" *ngIf="category==='Health'" > -->
         <!-- <div  ng-style="{'color: red': category==='Health', 'color: green': category==='Work', 'color: blue': category==='Social'"> -->
             <div [ngClass]="{'card_header_health': category === 'Health', 'card_header_work': category === 'Work','card_header_social': category === 'Social'}">

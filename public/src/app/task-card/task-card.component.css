@@ -17,6 +17,9 @@ padding: 20px;
 div.card a *{
     text-decoration: none;
 }
+div.card>a:hover{
+    cursor: pointer;
+}
 p.taskName{
     font-size: 16pt;
     margin: 0px;
