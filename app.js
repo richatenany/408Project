@@ -447,6 +447,50 @@ app.post('/createTask', (request, response) => {
     })
 })
 
+app.post('/editTask', (request, response) => {
+    var title = request.body['title'];
+    var deadLine = request.body['date'];
+    var desc = request.body['desc'];
+    var weight = request.body['weight'];
+    var category = request.body['category'];
+    var status = request.body['status'];
+    var id = request.body['_id'];
+    var sess = request.session;
+    var email = sess.email;
+
+    console.log("in edit task\n");
+
+    //validate input
+    if(Date.parse(deadLine) < Date.now()) { return response.json({success:0, message:"Invalid deadline: must be after current date"})};
+    if(weight < 0) { return response.json({success:0, message: "Invalid weight: task weights must be postive."})};
+
+    Task.findOne({_id:id}, function(error, task){
+        if(error){
+            return response.json({success:-1, message: 'Server error'});
+        } else if(task == null){ //I.E. this user doesn't already have a task with this id
+            return response.json({success:0, message: 'The task to be updated does not exist'});
+
+        } else { //I.E. this user already has a task with this id
+            Task.updateOne( { _id: id },
+                {
+                    $set: {
+                        "title": title,
+                        "deadLine": deadLine,
+                        "desc": desc,
+                        "weight": weight,
+                        "category": category,
+                        "status": status,
+                        "email": email
+                    }
+                }
+            );
+            return response.json({success:1, message: 'Task succesfully updated'});
+        }
+    })
+    
+})
+
+
 app.post('/removeTask', (request, response) => {
     var sess = request.session;
     var id = request.body['_id'];
