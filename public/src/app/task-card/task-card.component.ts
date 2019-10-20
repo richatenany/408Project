@@ -19,10 +19,14 @@ export class TaskCardComponent implements OnInit {
 
   @Output() goToTask: EventEmitter<string>;
   @Output() removeTask: EventEmitter<string>;
+  @Output() goToEditTask: EventEmitter<string>;
+  @Output() switchTo: EventEmitter<{newTab: string, section: number, taskID?: string}>;
 
   constructor(private _http: HttpClient) { 
     this.goToTask = new EventEmitter<string>();
+    this.goToEditTask = new EventEmitter<string>();
     this.removeTask =  new EventEmitter<string>();
+    this.switchTo = new EventEmitter<{newTab: string, section: number, taskID?: string}>();
     
   }
 
@@ -44,7 +48,9 @@ export class TaskCardComponent implements OnInit {
       })
     }
   }
-
+  editClicked(){
+    this.goToEditTask.emit(this.taskID);
+  }
   statusChanged(newValue: number){
     this._http.post('/changeStatus', {taskID: this.taskID, status: newValue}).subscribe(data=>{
       console.log('Received status change response:', data)

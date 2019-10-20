@@ -38,6 +38,7 @@ export class DashboardSectionComponent implements OnInit {
     this.switchTo.emit({newTab:'addTask', section:0})
   }
   
+  
 
   goToTaskInfo(taskID: string){
     var section;
@@ -56,6 +57,9 @@ export class DashboardSectionComponent implements OnInit {
         break;
     }
     this.switchTo.emit({newTab:'taskInfo', section: section, taskID: taskID})
+  }
+  goToEditTaskInfo(taskID: string){
+    this.switchTo.emit({newTab:'editTask', section: 0});
   }
 
   removeTask(taskID: string){
