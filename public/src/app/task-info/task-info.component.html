@@ -12,8 +12,12 @@
             <p class='taskCategory'>Task Category: {{task.category}}</p>
             <p class='taskWeight'>Task Weight: {{task.weight}}</p>
             <p> <i>Comments:</i> </p>
-            <input class="comments" type="text" name="comments">
-            <button class="done"> Done </button>
+            <form method="post">
+                <input name="comments" class="comments">
+                <input type="submit" class="done"value="Add">
+                </form>
+            <!-- <input class="comments" type="text" name="comments">
+            <button class="done"> Add </button> -->
             
             <!-- <p>taskID: {{taskID}}!!</p> -->
         </div>
