@@ -68,3 +68,6 @@ div#formDiv{
 form{
     display: block;
 }
+#error{
+    float: right;
+}
