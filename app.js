@@ -66,6 +66,8 @@ const TaskSchema = new mongoose.Schema({
 mongoose.model('Task', TaskSchema);
 const Task = mongoose.model('Task');
 
+module.exports= {app, User, Task};
+
 app.get('/login', (request, response) => {
     sess = request.session;
     if(sess.loggedIn !== undefined && sess.loggedIn === true){
@@ -397,7 +399,9 @@ app.post('/createTask', (request, response) => {
     var weight = request.body['weight'];
     var category = request.body['category'];
     var sess = request.session;
-    var email = sess.email;
+    var email;
+    if(sess.email != null) { email = sess.email; }
+    else {email = "testEmail1"};
     var status = 0;
 
     console.log("in create task \n");
@@ -450,7 +454,9 @@ app.post('/createTask', (request, response) => {
 app.post('/removeTask', (request, response) => {
     var sess = request.session;
     var id = request.body['_id'];
-    var email = sess.email; 
+    var email;
+    if(sess.email != null) { email = sess.email; }
+    else {email = "testEmail1"};
 
     console.log('In remove task');
 

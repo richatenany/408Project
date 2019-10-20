@@ -6,6 +6,7 @@
     "start": "node ../app.js",
     "build": "ng build",
     "test": "ng test",
+    "testMongo": "nodemon --exec 'mocha -R min'",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "heroku-postbuild": "ng build --prod"
@@ -21,7 +22,10 @@
     "@angular/platform-browser": "^8.2.7",
     "@angular/platform-browser-dynamic": "^8.2.7",
     "@angular/router": "^8.2.7",
+    "chai": "^4.2.0",
+    "mocha": "^6.2.0",
     "rxjs": "~6.4.0",
+    "supertest": "^4.0.2",
     "tslib": "^1.10.0",
     "typescript": "~3.5.3",
     "zone.js": "~0.9.1"
