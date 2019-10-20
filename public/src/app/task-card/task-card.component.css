@@ -27,6 +27,9 @@ p.taskName{
 p.taskDescription{
     font-size: 14pt;
     margin: 0px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .card_header_health{
     width: 100%;

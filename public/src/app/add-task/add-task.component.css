@@ -45,4 +45,6 @@
 .inputStyle{
     margin-left: 10px;
     width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
