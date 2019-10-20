@@ -2,12 +2,24 @@
 
 <div class="card">
         <div class="card_header">
-            <a (click)="backClicked()">&#8592;</a>
+            <div [ngClass]="{'card_header_health': task.category === 'Health', 'card_header_work': task.category === 'Work','card_header_social': task.category === 'Social'}">
+            <a id="arrow" (click)="backClicked()">&#8592;</a>
             <p class='taskName'>{{task.title}}</p>
+            </div>
         </div>
         <div class="card_info">
-            <p class='taskDescription'>{{task.desc}}</p>
-            <p>taskID: {{taskID}}!!</p>
+            <p class='taskDescription'> Task Description: {{task.desc}}</p>
+            <p class='taskCategory'>Task Category: {{task.category}}</p>
+            <p class='taskWeight'>Task Weight: {{task.weight}}</p>
+            <p> <i>Comments:</i> </p>
+            <form method="post">
+                <input name="comments" class="comments">
+                <input type="submit" class="done"value="Add">
+                </form>
+            <!-- <input class="comments" type="text" name="comments">
+            <button class="done"> Add </button> -->
+            
+            <!-- <p>taskID: {{taskID}}!!</p> -->
         </div>
 </div>
 
