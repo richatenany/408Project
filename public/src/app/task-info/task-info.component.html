@@ -1,11 +1,12 @@
 <!-- <p>task-info works!</p> -->
 
 <div class="card">
-            <div class="card_header">
-                <p class='taskName'>{{tasks[0].title}}</p>
-            </div>
+        <div class="card_header">
+            <a (click)="backClicked()">&#8592;</a>
+            <p class='taskName'>{{task.title}}</p>
+        </div>
         <div class="card_info">
-            <p class='taskDescription'>{{tasks[0].desc}}</p>
+            <p class='taskDescription'>{{task.desc}}</p>
             <p>taskID: {{taskID}}!!</p>
         </div>
 </div>

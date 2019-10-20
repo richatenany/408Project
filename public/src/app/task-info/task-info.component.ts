@@ -10,13 +10,14 @@ import { HttpClient } from '@angular/common/http';
 export class TaskInfoComponent implements OnInit {
 
   @Input() taskID: string;
+  @Input() fromSection?: number;
   
-  tasks;
-  
+  task;
+  @Output() returnToSection: EventEmitter<boolean>;
 
   constructor(private _http: HttpClient) { 
+    this.returnToSection = new EventEmitter<boolean>();
   }
-
   
   
   ngOnInit() {
@@ -26,8 +27,12 @@ export class TaskInfoComponent implements OnInit {
     this._http.post('/getTask', {taskID: this.taskID}).subscribe(data=>{
       console.log("Received response:", data);
       if(data['success'] === 1) {
-        this.tasks=data['content']['tasks'];
+        this.task=data['content']['tasks'][0];
       }
     })
+  }
+  backClicked(){
+    this.returnToSection.emit(true);
+    console.log("Back clicked");
   }
 }
