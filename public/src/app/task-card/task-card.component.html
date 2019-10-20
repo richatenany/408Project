@@ -13,7 +13,7 @@
     </a>
     <div class="card_info">
         
-        <p id="edit"> Edit </p> 
+        <p id="edit" (click)="editClicked()"> Edit </p> 
         <p class='taskDescription'>{{description}}</p>
         <p id ='weight'> Weight: {{weight}}</p>
         <p id ="date"> Due: {{date}} </p>
@@ -31,6 +31,6 @@
         </select>
     </div>
     <span id="remove" class="glyphicon glyphicon-trash" (click)="removeClicked()"></span>
-    <span id="warning">&#9888;</span>
+    <span id="warning" [ngClass]="getClassFromDate(date)">&#9888;</span>
 
 </div>

@@ -104,3 +104,7 @@ select{
     cursor: pointer;
     font-style: italic;
 }
+
+.hidden{
+    display: none;
+}

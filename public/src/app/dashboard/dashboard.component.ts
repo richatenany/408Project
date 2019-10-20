@@ -8,11 +8,13 @@ import { HttpClient } from '@angular/common/http';
 })
 export class DashboardComponent implements OnInit {
   addPressed:boolean;
+  editPressed:boolean;
   sectionToSwitch: number;
   showingTaskID: string;
 
   constructor(private _http: HttpClient) {
     this.addPressed = false;
+    this.editPressed = false;
     this.sectionToSwitch = -1;
     this.showingTaskID = '';
   }
@@ -30,6 +32,15 @@ export class DashboardComponent implements OnInit {
       this.addPressed = true;
       return;
     }
+    //added tings
+    if( newTab === "editTask" && section === 0){
+      console.log("EDIT PRESSED");
+      this.addPressed = true; // THIS SHOULD BE CHANGED FOR EDIT and look at dashboard.component.html to implement further for <app-edit-Task>
+    //  this.showingTaskID = info.taskID;
+    //  this.sectionToSwitch = section;
+    }
+
+
     if(newTab === 'taskInfo' && info.taskID) {
       this.showingTaskID = info.taskID;
       this.sectionToSwitch = section;
