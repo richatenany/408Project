@@ -565,8 +565,10 @@ app.get('/getTasks/all_done', (request, response)=>{
     })
 })
 
-app.get('/getTask', (request, response)=>{
-    var id = request._id;
+app.post('/getTask', (request, response)=>{
+    var id = request.body.taskID;
+
+    console.log("GETTING TASKS");
 
     Task.find({_id:id}, (error, tasks) => {
         if(error){
@@ -576,7 +578,7 @@ app.get('/getTask', (request, response)=>{
             return response.json({success:0, message:'No tasks found'})
         }
         else{
-            return response.json({success: 1, message:"Found user task", content: {task: setUrgencyBadges(tasks)}})
+            return response.json({success: 1, message:"Found user task", content: {tasks: setUrgencyBadges(tasks)}})
         }
     })
 })
