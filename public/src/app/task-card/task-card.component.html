@@ -31,6 +31,6 @@
         </select>
     </div>
     <span id="remove" class="glyphicon glyphicon-trash" (click)="removeClicked()"></span>
-    <span id="warning">&#9888;</span>
+    <span id="warning" [ngClass]="getClassFromDate(date)">&#9888;</span>
 
 </div>
