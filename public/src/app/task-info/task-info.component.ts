@@ -11,6 +11,7 @@ export class TaskInfoComponent implements OnInit {
 
   @Input() taskID: string;
   @Input() fromSection?: number;
+  @Input() category: string;
   
   task;
   @Output() returnToSection: EventEmitter<boolean>;
