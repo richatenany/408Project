@@ -2,9 +2,9 @@
 <div class="flex-grid-thirds">
     <app-dashboard-section sectionName="To-Do" (switchTo)="switchListener($event)" *ngIf="!addPressed && sectionToSwitch!=0"></app-dashboard-section>
     <app-add-task *ngIf=addPressed (switchBack)="switchBackListener($event)"></app-add-task>
-    <app-task-info *ngIf="sectionToSwitch==0"  taskID={{showingTaskID}}></app-task-info>
+    <app-task-info *ngIf="sectionToSwitch==0"  taskID={{showingTaskID}} (returnToSection)="backListener($event)"></app-task-info>
     <app-dashboard-section sectionName="In-Progress" (switchTo)="switchListener($event)" *ngIf="sectionToSwitch!=1"></app-dashboard-section>
-    <app-task-info *ngIf="sectionToSwitch==1" taskID={{showingTaskID}}></app-task-info>
+    <app-task-info *ngIf="sectionToSwitch==1" taskID={{showingTaskID}} (returnToSection)="backListener($event)"></app-task-info>
     <app-dashboard-section sectionName="Done" (switchTo)="switchListener($event)" *ngIf="sectionToSwitch!=2"></app-dashboard-section>
-    <app-task-info *ngIf="sectionToSwitch==2" taskID={{showingTaskID}}></app-task-info>
+    <app-task-info *ngIf="sectionToSwitch==2" taskID={{showingTaskID}} (returnToSection)="backListener($event)"></app-task-info>
 </div>

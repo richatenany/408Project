@@ -19,6 +19,10 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
   }
+  backListener(success:boolean){
+    console.log("Received Event:", success);
+    this.sectionToSwitch = -1;
+  }
 
   switchListener(info: {newTab:string, section:number, taskID?:string}) {
     const {newTab, section} = info;
@@ -29,6 +33,9 @@ export class DashboardComponent implements OnInit {
     if(newTab === 'taskInfo' && info.taskID) {
       this.showingTaskID = info.taskID;
       this.sectionToSwitch = section;
+    }
+    if(newTab === 'exitInfo') {
+      this.sectionToSwitch = -1;
     }
     
     console.log("Received event:", info);
