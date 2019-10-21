@@ -35,7 +35,7 @@ app.use(session({
 
 const NUM_SALTS = 10;
 
-mongoose.connect('mongodb://localhost/StratifyDB', {useNewUrlParser: true, useUnifiedTopology: true}).then(() => {
+mongoose.connect(process.env.MONGODB_URI, {useNewUrlParser: true, useUnifiedTopology: true}).then(() => {
     console.log("Connected to Database");
     }).catch((err) => {
         console.log("Not Connected to Database ERROR! ", err);
@@ -715,10 +715,10 @@ app.all('*', (request, response, next) => {
     return response.sendFile(path.resolve('./public/dist/public/index.html'))
 })
 
-// var port = process.env.PORT || 8080
-// app.listen(port, function(){
-//     console.log("Server is listening on port 8080");
-// });
+var port = process.env.PORT || 3000
+app.listen(port, function(){
+    console.log("Server is listening on port 3000");
+});
 
 app.listen(8000, ()=>{
     console.log("Server is listening on port 8000")
