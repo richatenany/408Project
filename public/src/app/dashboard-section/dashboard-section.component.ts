@@ -59,7 +59,22 @@ export class DashboardSectionComponent implements OnInit {
     this.switchTo.emit({newTab:'taskInfo', section: section, taskID: taskID})
   }
   goToEditTaskInfo(taskID: string){
-    this.switchTo.emit({newTab:'editTask', section: 0});
+    var section;
+    switch (this.sectionName){
+      case 'To-Do':
+        section=3;
+        break;
+      case 'In-Progress':
+        section=4;
+        break;
+      case 'Done':
+        section=5;
+        break;
+      default:
+        section='ERROR'
+        break;
+    }
+    this.switchTo.emit({newTab:'editTask', section: section, taskID: taskID});
   }
 
   removeTask(taskID: string){

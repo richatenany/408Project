@@ -450,15 +450,15 @@ app.post('/createTask', (request, response) => {
         }
     })
 })
-
 app.post('/editTask', (request, response) => {
     var title = request.body['title'];
     var deadLine = request.body['date'];
     var desc = request.body['desc'];
     var weight = request.body['weight'];
     var category = request.body['category'];
-    var status = request.body['status'];
-    var id = request.body['_id'];
+    // var status = request.body['status'];
+    //var id = request.body['_id'];
+    var id = request.body['taskID'];
     var sess = request.session;
     var email = sess.email;
 
@@ -475,26 +475,20 @@ app.post('/editTask', (request, response) => {
             return response.json({success:0, message: 'The task to be updated does not exist'});
 
         } else { //I.E. this user already has a task with this id
-            Task.updateOne( { _id: id },
-                {
-                    $set: {
-                        "title": title,
-                        "deadLine": deadLine,
-                        "desc": desc,
-                        "weight": weight,
-                        "category": category,
-                        "status": status,
-                        "email": email
-                    }
+            task.title = title;
+            task.deadLine = deadLine;
+            task.desc = desc;
+            task.weight = weight;
+            task.category = category;
+            task.save(error => {
+                if(error){
+                    return response.json({success:0, message:'Unable to save task'});
                 }
-            );
-            return response.json({success:1, message: 'Task succesfully updated'});
+            });
+            return response.json({success:1, message: 'Task succesfully updated', content: {task: task}});
         }
     })
-    
 })
-
-
 app.post('/removeTask', (request, response) => {
     var sess = request.session;
     var id = request.body['_id'];
