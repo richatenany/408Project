@@ -720,10 +720,6 @@ app.listen(port, function(){
     console.log("Server is listening on port 3000");
 });
 
-app.listen(8000, ()=>{
-    console.log("Server is listening on port 8000")
-})
-
 function emailConfirmation(email) {
     var transporter = nodemailer.createTransport({
         service: 'gmail',
