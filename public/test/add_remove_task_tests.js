@@ -30,7 +30,7 @@ describe('Creating documents', () => {
             })
         })
     });
-
+/*
     it('validate deadline date', (done) => {
         request(app)
         .post('/createTask')
@@ -48,7 +48,7 @@ describe('Creating documents', () => {
             done();
         })
     })
-
+*/
     it('validate weight', (done) => {
         request(app)
         .post('/createTask')
