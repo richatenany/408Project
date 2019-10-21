@@ -15,7 +15,7 @@ describe('Creating documents', () => {
         .post('/createTask')
         .send({
                 "title": "testTask1",
-                "deadLine": date.toString(),
+                "date": date.toString(),
                 "desc": "test_desc",
                 "weight": 3,
                 "category": "Work",
@@ -36,7 +36,7 @@ describe('Creating documents', () => {
         .post('/createTask')
         .send({
             "title": "testTask_invalidDeadline",
-            "deadLine": invalidDate.toString(),
+            "date": invalidDate.toString(),
             "desc": "test_desc",
             "weight": 3,
             "category": "Work",
@@ -54,7 +54,7 @@ describe('Creating documents', () => {
         .post('/createTask')
         .send({
             "title": "testTask_invalidWeight",
-            "deadLine": date.toString(),
+            "date": date.toString(),
             "desc": "test_desc",
             "weight": -1,
             "category": "Work",
@@ -72,7 +72,7 @@ describe('Creating documents', () => {
         .post('/createTask')
         .send({
             "title": "testTask1",
-            "deadLine": date.toString(),
+            "date": date.toString(),
             "desc": "test_desc",
             "weight": 5,
             "category": "Work",
@@ -92,7 +92,7 @@ describe('Creating documents', () => {
         .post('/createTask')
         .send({
             "title": "testTask2",
-            "deadLine": date.toString(),
+            "date": date.toString(),
             "desc": "testTask2_desc",
             "weight": 5,
             "category": "Work",
