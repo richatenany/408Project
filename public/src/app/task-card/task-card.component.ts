@@ -99,13 +99,14 @@ export class TaskCardComponent implements OnInit {
     if(this.date.substring(5,7) == "12"){
       newDate = "December ";
     }
-    newDate = newDate.concat(day);
-    newDate = newDate.concat(", ");
-    newDate = newDate.concat(year);
-    console.log("OVER HERE FAM CHECK IT");
-    console.log(newDate);
-    this.date = newDate;
-
+    if(newDate !== undefined){
+      newDate = newDate.concat(day);
+      newDate = newDate.concat(", ");
+      newDate = newDate.concat(year);
+      console.log("OVER HERE FAM CHECK IT");
+      console.log(newDate);
+      this.date = newDate;
+    }
   }
 
   taskClicked(){
