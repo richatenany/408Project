@@ -14,7 +14,8 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent, 
         HeaderComponent, 
-        DashboardComponent
+        DashboardComponent,
+        AllTasksComponent
       ],
     }).compileComponents();
   }));
@@ -32,6 +33,7 @@ describe('AppComponent', () => {
 })
 class DashboardComponent {
 }
+
 @Component({
   selector: 'app-header',
   template: ''
@@ -40,3 +42,8 @@ class HeaderComponent{
   @Input() currentTab:string;
 }
 
+@Component({
+  selector: 'app-all-tasks',
+  template: ''
+})
+class AllTasksComponent{}

@@ -59,4 +59,7 @@ class TaskCardComponent{
   @Input() taskName: string;
   @Input() currentStatus: string;
   @Input() description: string
+  @Input() weight: number;
+  @Input() date: string;
+  @Input() category: string;
 }

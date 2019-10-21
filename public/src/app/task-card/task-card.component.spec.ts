@@ -26,6 +26,15 @@ describe('TaskCardComponent', () => {
   it('should create', () => {
     fixture = TestBed.createComponent(TaskCardComponent);
     component = fixture.componentInstance;
+
+    component.taskName='This is my task';
+    component.description='This is the description';
+    component.currentStatus=0;
+    component.taskID = 'test420ID';
+    component.date='2020-01-19';
+    component.category = 'Health';
+    component.weight = 3;
+
     fixture.detectChanges();
     expect(component).toBeTruthy();
   });
@@ -34,10 +43,13 @@ describe('TaskCardComponent', () => {
     fixture = TestBed.createComponent(TaskCardComponent);
     component = fixture.componentInstance;
 
-    component.taskName='This is my task'
+    component.taskName='This is my task';
     component.description='This is the description';
-    component.currentStatus=0
-    component.taskID = 'test420ID'
+    component.currentStatus=0;
+    component.taskID = 'test420ID';
+    component.date='2020-01-19';
+    component.category = 'Health';
+    component.weight = 3;
 
     fixture.detectChanges();
 
@@ -50,6 +62,15 @@ describe('TaskCardComponent', () => {
   it('should show call the remove function', () => {
     fixture = TestBed.createComponent(TaskCardComponent);
     component = fixture.componentInstance;
+
+    component.taskName='This is my task';
+    component.description='This is the description';
+    component.currentStatus=0;
+    component.taskID = 'test420ID';
+    component.date='2020-01-19';
+    component.category = 'Health';
+    component.weight = 3;
+    
     fixture.detectChanges();
     
     spyOn(component, 'removeClicked');
