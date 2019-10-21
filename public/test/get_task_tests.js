@@ -6,7 +6,7 @@ const chai = require('chai');
 const request = require('supertest');
 
 describe('Creating documents', () => {
-/*
+
     var date = new Date(); //Date.now();
     var refDate = new Date();
     var invalidDate = new Date();
@@ -184,5 +184,5 @@ describe('Creating documents', () => {
             done();
         })
     })
-    */
+    
 });
