@@ -109,7 +109,7 @@ export class TaskCardComponent implements OnInit {
     this.goToTask.emit(this.taskID);
   }
 
-  getClassFromDate(date: Date) {
+  getClassFromDate(date: string) {
     let curDate = new Date(date);
     let today = new Date();
     let tomorrow = new Date ();
