@@ -22,12 +22,30 @@ describe('AllTasksComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AllTasksComponent);
     component = fixture.componentInstance;
+    component.tasks=[{
+      title: 'Test',
+      _id: 'test123',
+      category: 'Health',
+      weight: 5,
+      deadLine: '2020-01-19',
+      dateCompleted: '2019-08-08'
+    }]
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should have show task info when clicking on details', () => {
+    spyOn(component, 'taskClicked');
+
+    const button = fixture.debugElement.nativeElement.querySelector('a')
+    button.click()
+    fixture.whenStable().then(() => {
+      expect(component.taskClicked('test123')).toHaveBeenCalled()
+    })
+  })
 });
 
 @Component({
