@@ -11,7 +11,6 @@ import { HttpClient } from '@angular/common/http';
 export class DashboardSectionComponent implements OnInit {
   
   @Input() sectionName;
-  @Input() items;
   @Output() switchTo: EventEmitter<{newTab: string, section: number, taskID?: string}>;
   
   tasks;
@@ -33,11 +32,12 @@ export class DashboardSectionComponent implements OnInit {
     else{
       this.fetchDone();
     }
-    console.log("Items:", this.items)
+  
   }
   plusClicked(){
     this.switchTo.emit({newTab:'addTask', section:0})
   }
+  
   
 
   goToTaskInfo(taskID: string){
@@ -57,6 +57,24 @@ export class DashboardSectionComponent implements OnInit {
         break;
     }
     this.switchTo.emit({newTab:'taskInfo', section: section, taskID: taskID})
+  }
+  goToEditTaskInfo(taskID: string){
+    var section;
+    switch (this.sectionName){
+      case 'To-Do':
+        section=3;
+        break;
+      case 'In-Progress':
+        section=4;
+        break;
+      case 'Done':
+        section=5;
+        break;
+      default:
+        section='ERROR'
+        break;
+    }
+    this.switchTo.emit({newTab:'editTask', section: section, taskID: taskID});
   }
 
   removeTask(taskID: string){

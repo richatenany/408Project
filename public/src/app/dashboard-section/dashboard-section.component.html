@@ -5,5 +5,5 @@
         <button *ngIf=showPlus (click)="plusClicked()"><i class="fa fa-plus-circle" style="font-size:22px; padding-right: 12px"></i></button>
         <p>{{sectionName}}</p><br>
     </div>
-    <app-task-card *ngFor='let task of tasks' taskID={{task._id}} taskName={{task.title}} description={{task.desc}} currentStatus={{task.status}} (goToTask)="goToTaskInfo($event)" (removeTask)="removeTask($event)"></app-task-card>
+    <app-task-card *ngFor='let task of tasks' taskID={{task._id}} category={{task.category}} taskName={{task.title}} description={{task.desc}} currentStatus={{task.status}} weight = {{task.weight}} date = {{task.deadLine}} (goToTask)="goToTaskInfo($event)" (removeTask)="removeTask($event)" (goToEditTask)="goToEditTaskInfo($event)"currentStatus={{task.status}} ></app-task-card>
 </div>

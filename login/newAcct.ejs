@@ -16,9 +16,12 @@
                         <a href="/login" id="arrow"> &#8592</h></a><br>
                         <h id="title"> STRATIFY </h>
                         <form action='/processSignup' method='post'>
-                                <%if (message.length > 0) { %>
-                                    <%= message %>
-                                <% } %>
+                                <div id="error"> 
+                                    <%if (message.length > 0) { %>
+                                        <%= message %>
+                                    <% } %>
+                                </div>
+                               
                                 <input id="creds"  type="text" placeholder="Enter Name" name="name" required>
                                 <input id="creds2" type="text" placeholder="Enter Email" name="email" required>
                                 <input id="creds3" type="password" placeholder="Choose Password" name="password" required> <br>

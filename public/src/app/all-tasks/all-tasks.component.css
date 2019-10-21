@@ -1,0 +1,18 @@
+tr td a{
+    color: blue
+}
+tr td a:hover{
+    color: blue;
+    cursor: pointer;
+}
+div.right{
+    width: 400px;
+}
+div.left{
+    flex: 1;
+    height: 97vh;
+    overflow: scroll;
+}
+div.tasks{
+    display:flex;
+}

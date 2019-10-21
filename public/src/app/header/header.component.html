@@ -6,9 +6,10 @@
     <p id='bigTitleText'>Stratify</p>
     <div id='tabsOuter'>
         <div id='tabsInner'>
-            <a href='#' ng-style="currentTab==='Dashboard' && {'color':'orange'}">Dashboard</a>
-            <a href='#'>All Tasks</a>
-            <a href='#'>Statistics</a>
+            <!-- <a href='#' ng-style="currentTab==='Dashboard' && {'color':'orange'}">Dashboard</a> -->
+            <a (click)="sectionClicked('Dashboard')">Dashboard</a>
+            <a (click)="sectionClicked('Completed')">Completed Tasks</a>
+            <!-- <a (click)="sectionClicked('Stats')">Statistics</a> -->
         </div>
     </div>
 </div>

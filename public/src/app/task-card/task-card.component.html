@@ -3,15 +3,24 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 <div class="card">
-    <a href='#' (click)="taskClicked()">
-        <div class="card_header">
+    <a (click)="taskClicked()">
+        <!-- <div class="card_header_health" *ngIf="category==='Health'" > -->
+        <!-- <div  ng-style="{'color: red': category==='Health', 'color: green': category==='Work', 'color: blue': category==='Social'"> -->
+            <div [ngClass]="{'card_header_health': category === 'Health', 'card_header_work': category === 'Work','card_header_social': category === 'Social'}">
             <p class='taskName'>{{taskName}}</p>
         </div>
+        
     </a>
     <div class="card_info">
+        
+        <p id="edit" (click)="editClicked()"> Edit </p> 
         <p class='taskDescription'>{{description}}</p>
+        <p id ='weight'> Weight: {{weight}}</p>
+        <p id ="date"> Due: {{date}} </p>
+       
+
     </div>
-    <div class="dropdown">
+    <div id="progress" class="dropdown">
         <select (change)="statusChanged(t.value)" #t>
             <option *ngIf="currentStatus==0" selected value=0>To-Do</option>
             <option *ngIf="currentStatus!=0" value=0 >To-Do</option>
@@ -22,4 +31,6 @@
         </select>
     </div>
     <span id="remove" class="glyphicon glyphicon-trash" (click)="removeClicked()"></span>
+    <span id="warning" [ngClass]="getClassFromDate(date)">&#9888;</span>
+
 </div>

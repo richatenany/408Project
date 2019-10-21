@@ -1,29 +1,29 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { AddTaskComponent } from './add-task.component';
+import { EditTaskComponent } from './edit-task.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-describe('AddTaskComponent', () => {
-  let component: AddTaskComponent;
-  let fixture: ComponentFixture<AddTaskComponent>;
+describe('EditTaskComponent', () => {
+  let component: EditTaskComponent;
+  let fixture: ComponentFixture<EditTaskComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports:[FormsModule, 
         HttpClientTestingModule
       ],
-      declarations: [ AddTaskComponent ]
+      declarations: [ EditTaskComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AddTaskComponent);
+    fixture = TestBed.createComponent(EditTaskComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should edit', () => {
     expect(component).toBeTruthy();
   });
 
