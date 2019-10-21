@@ -460,7 +460,9 @@ app.post('/editTask', (request, response) => {
     //var id = request.body['_id'];
     var id = request.body['taskID'];
     var sess = request.session;
-    var email = sess.email;
+    var email;
+    if(sess.email != null) { email = sess.email; }
+    else {email = "testEmail1"};
 
     console.log("in edit task\n");
 
