@@ -12,6 +12,7 @@ mongoose.connection
     });
 
 beforeEach(async function () {
+
     let user = await mod.User.create({
         name: "tester1", 
         email: "testEmail1",  
@@ -19,6 +20,7 @@ beforeEach(async function () {
         taskIDs: []
     })
 });
+
 //Called hooks which runs before something.
 after(async function () {
     const collections = await mongoose.connection.db.collections()

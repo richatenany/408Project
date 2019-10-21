@@ -549,7 +549,9 @@ app.post('/removeTask', (request, response) => {
 
 app.get('/getTasks/todo', (request, response)=>{
     var session = request.session;
-    const email = session.email;
+    var email;
+    if(session.email != null) { email = session.email; }
+    else {email = "testEmail1"};
 
     Task.find({email:email, status:0}, (error, tasks) => {
         if(error){
@@ -566,7 +568,9 @@ app.get('/getTasks/todo', (request, response)=>{
 
 app.get('/getTasks/inProgress', (request, response)=>{
     var session = request.session;
-    const email = session.email;
+    var email;
+    if(session.email != null) { email = session.email; }
+    else {email = "testEmail1"};
 
     Task.find({email:email, status:1}, (error, tasks) => {
         if(error){
@@ -583,7 +587,9 @@ app.get('/getTasks/inProgress', (request, response)=>{
 
 app.get('/getTasks/done', (request, response)=>{
     var session = request.session;
-    const email = session.email;
+    var email;
+    if(session.email != null) { email = session.email; }
+    else {email = "testEmail1"};
 
     Task.find({email:email, status:2}, (error, tasks) => {
         if(error){
@@ -600,7 +606,9 @@ app.get('/getTasks/done', (request, response)=>{
 
 app.get('/getTasks/all_done', (request, response)=>{
     var session = request.session;
-    const email = session.email;
+    var email;
+    if(session.email != null) { email = session.email; }
+    else {email = "testEmail1"};
 
     Task.find({email:email, status:2}, (error, tasks) => {
         if(error){
@@ -635,7 +643,9 @@ app.post('/getTask', (request, response)=>{
 
 app.post('/changeStatus', (request, response)=>{
     const session = request.session;
-    const email = session.email;
+    var email;
+    if(session.email != null) { email = session.email; }
+    else {email = "testEmail1"};
 
     const {taskID, status} = request.body
 
@@ -664,7 +674,9 @@ app.post('/changeStatus', (request, response)=>{
 
 app.post('/addComment', (request, response)=> {
     const session = request.session;
-    const email = session.email;
+    var email;
+    if(session.email != null) { email = session.email; }
+    else {email = "testEmail1"};
 
     const {taskID, comment} = request.body
 
