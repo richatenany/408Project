@@ -47,11 +47,9 @@ export class TaskCardComponent implements OnInit {
 
     var d = new Date();
     if(d.getFullYear() == year || d.getMonth() == month || d.getDay() == day){
-      console.log("WARNING SIGN HAS BEEN TRIGGERED");
       document.getElementById("warning").classList.add("hidden");
       //  let currEl = document.querySelector("div").closest("#warning").classList.add('.hidden');
       let el = document.querySelector("span").closest("#warning")
-      console.log(el);
       // $(".card").closest('#warning').addClass('hidden');
       // let el = document.getElementById("remove")
       // if(el != undefined){
@@ -99,13 +97,12 @@ export class TaskCardComponent implements OnInit {
     if(this.date.substring(5,7) == "12"){
       newDate = "December ";
     }
-    newDate = newDate.concat(day);
-    newDate = newDate.concat(", ");
-    newDate = newDate.concat(year);
-    console.log("OVER HERE FAM CHECK IT");
-    console.log(newDate);
-    this.date = newDate;
-
+    if(newDate !== undefined){
+      newDate = newDate.concat(day);
+      newDate = newDate.concat(", ");
+      newDate = newDate.concat(year);
+      this.date = newDate;
+    }
   }
 
   taskClicked(){
@@ -113,8 +110,6 @@ export class TaskCardComponent implements OnInit {
   }
 
   getClassFromDate(date: Date) {
-    console.log("hello");
-    console.log(date);
     let curDate = new Date(date);
     let today = new Date();
     let tomorrow = new Date ();
@@ -125,13 +120,7 @@ export class TaskCardComponent implements OnInit {
     // let day = curDate.getDay();
 
 
-    console.log(month);
-    console.log(year);
-    console.log("BELOW IS THE DATE");
-    console.log(curDate);
-    console.log(tomorrow)
     if(curDate.getTime() == tomorrow.getTime() || curDate.getTime() == today.getTime()){
-      console.log("yuh")
       return '';
     }
     else{

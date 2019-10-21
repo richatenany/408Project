@@ -1,6 +1,7 @@
 //import { Component, OnInit, Input } from '@angular/core';
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-task-info',
@@ -11,9 +12,9 @@ export class TaskInfoComponent implements OnInit {
 
   @Input() taskID: string;
   @Input() fromSection?: number;
-  @Input() category: string;
   
   task;
+  comment:string;
   @Output() returnToSection: EventEmitter<boolean>;
 
   constructor(private _http: HttpClient) { 
@@ -35,5 +36,14 @@ export class TaskInfoComponent implements OnInit {
   backClicked(){
     this.returnToSection.emit(true);
     console.log("Back clicked");
+  }
+  addCommentClicked(){
+    this._http.post('/addComment', {taskID:this.taskID, comment:this.comment}).subscribe(data=>{
+      console.log("Data:", data);
+      if(data['success'] === 1){
+        this.task.comments.push(this.comment);
+        this.comment='';
+      }
+    })
   }
 }

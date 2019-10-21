@@ -12,14 +12,11 @@
             <p class='taskCategory'>Task Category: {{task.category}}</p>
             <p class='taskWeight'>Task Weight: {{task.weight}}</p>
             <p> <i>Comments:</i> </p>
-            <form method="post">
-                <input name="comments" class="comments">
-                <input type="submit" class="done"value="Add">
-                </form>
-            <!-- <input class="comments" type="text" name="comments">
-            <button class="done"> Add </button> -->
-            
-            <!-- <p>taskID: {{taskID}}!!</p> -->
+            <form>
+                <input name="comments" class="comments" [(ngModel)]='comment'>
+                <input type="submit" class="done"value="Add" (click)='addCommentClicked()'>
+            </form>
+            <p *ngFor='let nextComment of task.comments'>{{nextComment}}</p>
         </div>
 </div>
 
