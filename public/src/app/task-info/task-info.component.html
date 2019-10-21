@@ -1,22 +1,21 @@
-<!-- <p>task-info works!</p> -->
-
 <div class="card">
-        <div class="card_header">
-            <div [ngClass]="{'card_header_health': task.category === 'Health', 'card_header_work': task.category === 'Work','card_header_social': task.category === 'Social'}">
-            <a id="arrow" (click)="backClicked()">&#8592;</a>
-            <p class='taskName'>{{task.title}}</p>
-            </div>
-        </div>
-        <div class="card_info">
-            <p class='taskDescription'> Task Description: {{task.desc}}</p>
-            <p class='taskCategory'>Task Category: {{task.category}}</p>
-            <p class='taskWeight'>Task Weight: {{task.weight}}</p>
-            <p> <i>Comments:</i> </p>
-            <form>
-                <input name="comments" class="comments" [(ngModel)]='comment'>
-                <input type="submit" class="done"value="Add" (click)='addCommentClicked()'>
-            </form>
-            <p *ngFor='let nextComment of task.comments'>{{nextComment}}</p>
-        </div>
+  <div class="card_header">
+      <div [ngClass]="{'card_header_health': task.category === 'Health', 'card_header_work': task.category === 'Work','card_header_social': task.category === 'Social'}">
+        <a id="arrow" (click)="backClicked()">&#8592;</a>
+        <p class='taskName'>{{task.title}}</p>
+      </div>
+  </div>
+
+  <div class="card_info">
+      <p class='taskDescription'> Task Description: {{task.desc}}</p>
+      <p class='taskCategory'>Task Category: {{task.category}}</p>
+      <p class='taskWeight'>Task Weight: {{task.weight}}</p>
+      <p> <i>Comments:</i> </p>
+      <form>
+          <input name="comments" class="comments" [(ngModel)]='comment'>
+          <input type="submit" class="done"value="Add" (click)='addCommentClicked()'>
+      </form>
+      <p *ngFor='let nextComment of task.comments'>{{nextComment}}</p>
+  </div>
 </div>
 
