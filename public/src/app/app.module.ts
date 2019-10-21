@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AddTaskComponent } from './add-task/add-task.component';
+import { EditTaskComponent } from './edit-task/edit-task.component';
 import { HeaderComponent } from './header/header.component';
 import { DashboardSectionComponent } from './dashboard-section/dashboard-section.component';
 import { TaskInfoComponent } from './task-info/task-info.component';
@@ -20,6 +21,7 @@ import { StatsComponent } from './stats/stats.component';
   declarations: [
     AppComponent,
     AddTaskComponent,
+    EditTaskComponent,
     HeaderComponent,
     DashboardSectionComponent,
     TaskInfoComponent,

@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, Input } from '@angular/core';
 import { DashboardComponent } from './dashboard.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { EditTaskComponent } from '../edit-Task/edit-task.component';
+//import { EditTaskComponent } from '../edit-task/edit-task.component';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
