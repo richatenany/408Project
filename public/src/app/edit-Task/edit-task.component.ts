@@ -7,20 +7,13 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./edit-task.component.css']
 })
 export class EditTaskComponent implements OnInit {
- //   @Input() sectionName;
- //   @Output() switchTo: EventEmitter<{newTab: string, section: number, taskID?: string}>;
 
   title:string;
   weight:number;
   category:string;
   description:string;
   date:string;
-    // @Input() title:string;
-    // @Input() weight:number;
-    // @Input() category:string;
-    // @Input() description:string;
-    // @Input() date:string;
-    @Input() taskID: string;
+  @Input() taskID: string;
 
 
   @Output() switchTo: EventEmitter<{success: boolean}>;
