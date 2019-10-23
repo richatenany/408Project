@@ -34,8 +34,8 @@ app.use(session({
 // };
 
 const NUM_SALTS = 10;
-
-mongoose.connect(process.env.MONGODB_URI, {useNewUrlParser: true, useUnifiedTopology: true}).then(() => {
+var mongoUri = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/mydb';
+mongoose.connect(mongoUri, {useNewUrlParser: true, useUnifiedTopology: true}).then(() => {
     console.log("Connected to Database");
     }).catch((err) => {
         console.log("Not Connected to Database ERROR! ", err);
