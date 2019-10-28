@@ -549,7 +549,7 @@ app.get('/getTasks/todo', (request, response)=>{
     if(session.email != null) { email = session.email; }
     else {email = "testEmail1"};
 
-    Task.find({email:email, status:0}, (error, tasks) => {
+    Task.find({email:email /*,status:0*/}, (error, tasks) => {
         if(error){
             return response.json({success:-1, message:'Server error'})
         }
@@ -597,7 +597,7 @@ app.get('/getTasks/done', (request, response)=>{
         else{
             return response.json({success: 1, message:"Found user tasks", content: {tasks: setUrgencyBadges(tasks)}})
         }
-    }).sort({dateCompleted:1}).limit(12);
+    }).limit(12); //.sort({dateCompleted:1}) //should be: .sort.limit
 })
 
 app.get('/getTasks/all_done', (request, response)=>{
@@ -686,6 +686,7 @@ app.post('/addComment', (request, response)=> {
             }
 //             task.comments[task.comments.length] = comment;
             task.comments.push(comment);
+            task.comments.push(comment); //dup'd
             task.save(error=>{
                 if(error){
                     return response.json({success:0, message:'Unable to save task'})
