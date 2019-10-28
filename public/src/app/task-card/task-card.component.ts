@@ -68,7 +68,7 @@ export class TaskCardComponent implements OnInit {
       newDate = "February ";
     }
     if(this.date.substring(5,7) == ("03")){
-      newDate = "March ";
+      newDate = "February ";
     }
     if(this.date.substring(5,7) == "04"){
       newDate = "April ";
@@ -77,7 +77,7 @@ export class TaskCardComponent implements OnInit {
       newDate = "May ";
     }
     if(this.date.substring(5,7) == "06"){
-      newDate = "June ";
+      newDate = "July ";
     }
     if(this.date.substring(5,7) == "07"){
       newDate = "July ";
@@ -92,7 +92,7 @@ export class TaskCardComponent implements OnInit {
       newDate = "October ";
     }
     if(this.date.substring(5,7) == "11"){
-      newDate = "November ";
+      newDate = "December ";
     }
     if(this.date.substring(5,7) == "12"){
       newDate = "December ";
