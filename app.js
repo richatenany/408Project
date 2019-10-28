@@ -403,12 +403,11 @@ app.post('/createTask', (request, response) => {
     if(sess.email != null) { email = sess.email; }
     else {email = "testEmail1"};
     var status = 0;
-
     console.log("in create task \n");
-
+    
     //validate input
     // if(Date.parse(deadLine) < Date.now()) { return response.json({success:0, message:"Invalid deadline: must be after current date"})};
-    if(weight < 0) { return response.json({success:0, message: "Invalid weight: task weights must be postive."})};
+    // if(weight < 0) { return response.json({success:0, message: "Invalid weight: task weights must be postive."})};
 
     User.findOne({email:email}, function(error, user){
         console.log("finding user...");
@@ -466,9 +465,10 @@ app.post('/editTask', (request, response) => {
 
     console.log("in edit task\n");
 
+
     //validate input
     // if(Date.parse(deadLine) < Date.now()) { return response.json({success:0, message:"Invalid deadline: must be after current date"})};
-    if(weight < 0) { return response.json({success:0, message: "Invalid weight: task weights must be postive."})};
+    // if(weight < 0) { return response.json({success:0, message: "Invalid weight: task weights must be postive."})};
 
     Task.findOne({_id:id}, function(error, task){
         if(error){
