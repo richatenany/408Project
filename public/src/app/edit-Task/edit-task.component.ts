@@ -46,7 +46,7 @@ export class EditTaskComponent implements OnInit {
     this._http.post('/getTask', {taskID: this.taskID}).subscribe(data=> {
       console.log("Data:", data)
       this.title = data['content']['tasks']['0'].title;
-      this.weight = data['content']['tasks']['0'].weight - 1;
+      this.weight = data['content']['tasks']['0'].weight;
       this.category = data['content']['tasks']['0'].category;
       this.description = data['content']['tasks']['0'].desc;
       this.date = data['content']['tasks']['0'].deadLine.substring(0,10);
