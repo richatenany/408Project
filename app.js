@@ -136,11 +136,11 @@ app.post('/processSignup', (request, response ) => {
             });
         });
     
-    if(!emailRegex({exact: true}).test(request.body.email)) {
+    /* if(!emailRegex({exact: true}).test(request.body.email)) {
         flag = false;
         sess.ERROR2 = true;
         //return response.redirect("/register");
-    }
+    } */
     var pass = request.body.password 
     if(request.body.password.length > 20) {
         flag = false;
@@ -304,7 +304,7 @@ app.post('/newPass', (req, res) => {
                     
                     console.log("EMAIL: ", user.email);
                     user.pass = hash;
-                    user.resetPassDate = Date.now();
+                    //user.resetPassDate = Date.now();
                     user.save()
                     .then(result => {
                     console.log("SUCCESS CHANGED");
