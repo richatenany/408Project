@@ -8,14 +8,14 @@
         <select class="style" [(ngModel)]='category' name='category'>
             <option value='Health'>Health</option>
             <option value='Work'>Work</option>
-            <option value='Social'>Social</option>
+            <option value='Work'>Social</option>
         </select>
         <p class="style">Description: </p>
         <textarea class="inputStyle" [(ngModel)]='description' name='description'></textarea>
         <p class="style">Deadline: <input type='date' [(ngModel)]='date' name='date'></p>
         <div class='bottom'>
-            <button id="btn1" (click)=cancelPressed()>Cancel</button>
-            <button id="btn2" (click)=donePressed()>Done</button>
+            <button id="btn1" (click)=cancelPressed()>Done</button>
+            <button id="btn2" (click)=donePressed()>Cancel</button>
         </div>
     </div>
 
