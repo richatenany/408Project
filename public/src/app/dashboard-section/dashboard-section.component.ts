@@ -27,7 +27,7 @@ export class DashboardSectionComponent implements OnInit {
       this.fetchToDo();
     }
     else if(this.sectionName==='In-Progress'){
-      this.fetchInProgress()
+      this.fetchDone()
     }
     else{
       this.fetchDone();
