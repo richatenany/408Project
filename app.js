@@ -34,8 +34,8 @@ app.use(session({
 // };
 
 const NUM_SALTS = 10;
-
-mongoose.connect('mongodb://localhost/StratifyDB', {useNewUrlParser: true, useUnifiedTopology: true}).then(() => {
+var mongoUri = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/mydb';
+mongoose.connect(mongoUri, {useNewUrlParser: true, useUnifiedTopology: true}).then(() => {
     console.log("Connected to Database");
     }).catch((err) => {
         console.log("Not Connected to Database ERROR! ", err);
@@ -136,11 +136,11 @@ app.post('/processSignup', (request, response ) => {
             });
         });
     
-    /* if(!emailRegex({exact: true}).test(request.body.email)) {
+    if(!emailRegex({exact: true}).test(request.body.email)) {
         flag = false;
         sess.ERROR2 = true;
         //return response.redirect("/register");
-    } */
+    }
     var pass = request.body.password 
     if(request.body.password.length > 20) {
         flag = false;
@@ -304,7 +304,7 @@ app.post('/newPass', (req, res) => {
                     
                     console.log("EMAIL: ", user.email);
                     user.pass = hash;
-                    //user.resetPassDate = Date.now();
+                    user.resetPassDate = Date.now();
                     user.save()
                     .then(result => {
                     console.log("SUCCESS CHANGED");
@@ -403,11 +403,12 @@ app.post('/createTask', (request, response) => {
     if(sess.email != null) { email = sess.email; }
     else {email = "testEmail1"};
     var status = 0;
+
     console.log("in create task \n");
-    
+
     //validate input
     // if(Date.parse(deadLine) < Date.now()) { return response.json({success:0, message:"Invalid deadline: must be after current date"})};
-    // if(weight < 0) { return response.json({success:0, message: "Invalid weight: task weights must be postive."})};
+    if(weight < 0) { return response.json({success:0, message: "Invalid weight: task weights must be postive."})};
 
     User.findOne({email:email}, function(error, user){
         console.log("finding user...");
@@ -465,10 +466,9 @@ app.post('/editTask', (request, response) => {
 
     console.log("in edit task\n");
 
-
     //validate input
     // if(Date.parse(deadLine) < Date.now()) { return response.json({success:0, message:"Invalid deadline: must be after current date"})};
-    // if(weight < 0) { return response.json({success:0, message: "Invalid weight: task weights must be postive."})};
+    if(weight < 0) { return response.json({success:0, message: "Invalid weight: task weights must be postive."})};
 
     Task.findOne({_id:id}, function(error, task){
         if(error){
@@ -549,7 +549,7 @@ app.get('/getTasks/todo', (request, response)=>{
     if(session.email != null) { email = session.email; }
     else {email = "testEmail1"};
 
-    Task.find({email:email /*,status:0*/}, (error, tasks) => {
+    Task.find({email:email, status:0}, (error, tasks) => {
         if(error){
             return response.json({success:-1, message:'Server error'})
         }
@@ -597,7 +597,7 @@ app.get('/getTasks/done', (request, response)=>{
         else{
             return response.json({success: 1, message:"Found user tasks", content: {tasks: setUrgencyBadges(tasks)}})
         }
-    }).limit(12); //.sort({dateCompleted:1}) //should be: .sort.limit
+    }).sort({dateCompleted:1}).limit(12);
 })
 
 app.get('/getTasks/all_done', (request, response)=>{
@@ -686,7 +686,6 @@ app.post('/addComment', (request, response)=> {
             }
 //             task.comments[task.comments.length] = comment;
             task.comments.push(comment);
-            task.comments.push(comment); //dup'd
             task.save(error=>{
                 if(error){
                     return response.json({success:0, message:'Unable to save task'})
