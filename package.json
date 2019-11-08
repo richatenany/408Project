@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node app.js",
     "test": "nodemon --exec 'mocha -R min'",
-    "heroku-prebuild": "npm install && npm install -g @angular/cli",
+    "heroku-prebuild": "rm package-lock.json && npm install && npm install -g @angular/cli && npm audit fix",
     "heroku-postbuild": "cd public && npm install && npm install --only=dev && ng build --prod && cd .."
   },
   "repository": {
@@ -29,8 +29,9 @@
     "email-regex": "^4.0.0",
     "express": "^4.17.1",
     "express-session": "^1.16.2",
-    "nodemailer": "^6.3.0",
+    "mongod": "^2.0.0",
     "mongoose": "^5.7.1",
+    "nodemailer": "^6.3.0",
     "nodemon": "^1.19.2",
     "path": "^0.12.7",
     "typescript": "~2.3.3"
