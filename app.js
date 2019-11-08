@@ -35,7 +35,7 @@ app.use(session({
 
 const NUM_SALTS = 10;
 // var mongoUri = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/mydb';
-var mongoUri = 'mongodb://heroku_nlf1kb0t:7i35uni0p1bnp78bd8nijg554i@ds141228.mlab.com:41228/heroku_nlf1kb0t'
+var mongoUri = 'mongodb://heroku_g2p3k08l:ljuceaka0upu1c2v1u3hstgb00@ds241298.mlab.com:41298/heroku_g2p3k08l'
 mongoose.connect(mongoUri, {useNewUrlParser: true, useUnifiedTopology: true}).then(() => {
     console.log("Connected to Database");
     }).catch((err) => {
